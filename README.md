@@ -7,12 +7,12 @@
 استنساخ المستودع
 
 ```bash
-git clone https://github.com/aosus/matrix_aosus
+git clone https://github.com/aosus/matrix-discourse-bridge
 ```
 تثبيت الحزم 
 
 ```bash
-cd matrix_aosus
+cd matrix-discourse-bridge
 npm i
 ```
 
