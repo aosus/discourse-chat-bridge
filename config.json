@@ -1,0 +1,15 @@
+{
+    "username_matrix": "Username to your Matrix account",
+    "password_matrix": "Password to your Matrix account",
+    "homeserverUrl": "https://matrix.org",
+    "accessToken": "Put your accessToken here",
+    "autoJoin": true,
+    "dataPath": "storage",
+    "encryption": true,
+    "roomId": [
+        "!XdYFruiyThDuTFUxMD:matrix.org",
+        "!XbICMGPZGzlPAbkZqW:aosus.org"
+    ],
+    "username_discourse": "Username to your discourse.aosus.org account",
+    "password_discourse": "Passwordto your discourse.aosus.org account"
+}

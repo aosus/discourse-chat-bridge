@@ -1,0 +1,21 @@
+{
+  "name": "matrix-discourse-bridge",
+  "description": "bridge between the discourse and the Matrix",
+  "main": "index.js",
+  "author": "rn0x",
+  "license": "agpl-3.0",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node index.js",
+    "accessToken": "node accessToken.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "fs-extra": "^10.1.0",
+    "markdown-it": "^13.0.1",
+    "matrix-bot-sdk": "^0.6.1",
+    "moment": "^2.29.4",
+    "node-fetch": "^3.2.10",
+    "puppeteer": "^16.1.0"
+  }
+}
