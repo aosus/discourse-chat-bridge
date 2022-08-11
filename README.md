@@ -36,7 +36,8 @@ nano config.json
         "!XbICMGPZGzlPAbkZqW:aosus.org"
     ],
     "username_discourse": "Username to your discourse.aosus.org account",
-    "password_discourse": "Passwordto your discourse.aosus.org account"
+    "password_discourse": "Passwordto your discourse.aosus.org account",
+    "Token_Bot_Telegram": "token => https://t.me/BotFather"
 }
 ```
 

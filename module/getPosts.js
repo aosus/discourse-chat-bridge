@@ -33,7 +33,7 @@ export default async function getPosts(roomId, client) {
                 let cooked = latest_posts?.cooked.slice(0, 900)
                 let md = new MarkdownIt();
                 let caption = md.render(raw);
-                let Posted = await fs.readJson(path.join(__dirname, './Posted.json')).catch(e => console.log(e))
+                let Posted = await fs.readJson(path.join(__dirname, './Posted.json')).catch(e => console.log(e));
 
                 if (post_number === 0 && Posted.includes(topic_id) === false) {
 
@@ -60,7 +60,7 @@ export default async function getPosts(roomId, client) {
                                 "formatted_body": `${caption}\n\n${message}`,
                                 "body": `${caption}\n\n${message}`,
                             });
-                            
+
                         }
                         await fs.remove(path.join(__dirname, './preview/preview.jpg')).catch(e => console.log(e));
                         await Posted.push(topic_id);

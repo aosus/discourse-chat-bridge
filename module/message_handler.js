@@ -2,6 +2,7 @@ import fs from 'fs-extra';
 import path from "path";
 import { RichReply, RichRepliesPreprocessor } from "matrix-bot-sdk";
 import Comments from './Comments.js';
+import getUserTelegram from './getUserTelegram.js';
 
 export default async function MessageHandler(client) {
 
@@ -30,7 +31,8 @@ export default async function MessageHandler(client) {
 
                 let name = name.includes('(Telegram)') ? name.split('(Telegram)')[0] : name
                 let id_telegram = sender.split('@telegram_')[1]?.split(':aosus.org')[0];
-                let comment = `تم كتابة **[الرد](${external_url})** من قبل **[${name}](tg://user?id=${id_telegram})** :  \n\n`
+                let username = await getUserTelegram(id_telegram);
+                let comment = `تم كتابة **[الرد](${external_url})** من قبل **[${name}](https://t.me/${username})** :  \n\n`
                 comment += body
                 await Comments(topic_id, comment, config?.username_discourse, config?.password_discourse);
 

@@ -9,6 +9,6 @@ let password = config?.password_matrix;
 let auth = new MatrixAuth(homeserverUrl);
 let login = await auth.passwordLogin(username, password);
 
-config.homeserverUrl = login.accessToken
+config.accessToken = login.accessToken
 fs.writeJSONSync(path.join(path.resolve(), "config.json"), config)
 console.log('accessToken: ', login.accessToken);

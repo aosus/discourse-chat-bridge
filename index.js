@@ -36,7 +36,7 @@ async function Matrix() {
         // Check for new topics on the website
         await getPosts(config.roomId, client);
         // This blocks until the bot is killed
-        await client.start().then(() => console.log('start matrix_bot : ', moment().format("LT")));
+        await client.start().then(() => console.log('start matrix-discourse-bridge : ', moment().format("LT")));
 
     } catch (error) {
 
