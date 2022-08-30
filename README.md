@@ -1,4 +1,4 @@
-![Discourse_Bridge|690x278](upload://pQUn5WWIVrqkNbFmCOtjvFCg6Aa.png)
+![Discourse_Bridge|690x278]((/README/Discourse_Bridge.png)
 
 
 # Discourse_Bridge
@@ -40,7 +40,7 @@
 
 <br>
 
-**يجب عليك إنشاء  api عبر لوحة تحكم Discourse**
+**يجب عليك إنشاء مفتاح  api عبر لوحة تحكم Discourse**
 
 ![11|328x402](/README/11.png)
 
