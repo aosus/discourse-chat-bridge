@@ -1,4 +1,4 @@
-![Discourse_Bridge|690x278]((/README/Discourse_Bridge.png)
+![Discourse_Bridge](/README/Discourse_Bridge.png)
 
 
 # Discourse_Bridge
