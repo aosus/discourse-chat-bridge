@@ -79,7 +79,7 @@ nano config.json
 
 ```json
 {
-    "url": "https://discourse.altaqwaa.org",
+    "url": "https://discourse.aosus.org",
     "title_discourse": "مجتمع أسس",
     "token_discourse": "fbb8215419b92f4b3j87eyf7fd1172aa5bf8d16ce5e79e4f8d6d0dddf049b1",
     "useername_discourse": "admin",
