@@ -1,5 +1,4 @@
 yarn.lock
-storage
 node_modules
 package-lock.json
-Posted.json
+database

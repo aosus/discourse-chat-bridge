@@ -1,23 +1,29 @@
-import { Telegraf } from 'telegraf';
 import fs from 'fs-extra';
-import path from "path";
 
-export default async function getUserTelegram(id) {
+export default async function getUserTelegram() {
 
-    try {
+    let chat = fs.readdirSync('./database/telegram/chat');
+    let from = fs.readdirSync('./database/telegram/from');
+    var array = []
+    for (let item of chat) {
 
-        let config = await fs.readJson(path.join(path.resolve(), './config.json')).catch(e => console.log(e));
-        let bot = new Telegraf(config.Token_Bot_Telegram);
-        let getChat = await bot.telegram.getChat(id);
+        let id = item.split('.json')[0]
+        let chatJson = fs.readJsonSync(`./database/telegram/chat/${item}`);
+        if (chatJson?.evenPost) {
 
-        bot.launch();
-
-        return getChat?.username ? getChat?.username : getChat?.first_name;
-
-    } catch (error) {
-
-        return 'aosus'
-
+            array.push(id);
+        }
     }
 
+    for (let item of from) {
+
+        let id = item.split('.json')[0]
+        let fromJson = fs.readJsonSync(`./database/telegram/from/${item}`);
+        if (fromJson?.evenPost) {
+
+            array.push(id);
+        }
+    }
+
+    return array
 }
