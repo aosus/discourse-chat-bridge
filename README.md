@@ -65,19 +65,19 @@
 
 بعد الإنتهاء من إنشاء مفتاح api قم بإستنساخ المستودع 
 
-```
+```bash
 git clone https://github.com/aosus/Discourse_Bridge
 
 ```
 
 الآن قم بتعديل على ملف config.json
 
-```
+```bash
 cd Discourse_Bridge 
 nano config.json
 ```
 
-```
+```json
 {
     "url": "https://discourse.altaqwaa.org",
     "title_discourse": "مجتمع أسس",
@@ -89,7 +89,7 @@ nano config.json
 
 بعد التعديل على ملف config.json قم بتثبيت التبعيات وتشغيل البوت
 
-```
+```bash
 npm i
 npm start
 or
