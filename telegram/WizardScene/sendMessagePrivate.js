@@ -62,7 +62,7 @@ export default new Scenes.WizardScene(
             let sePr = await sendMessagePrivate(fromJson?.useername_discourse, title, raw, sendTo);
             if (sePr?.errors) {
 
-                for (let item of Private?.errors) {
+                for (let item of sePr?.errors) {
                     ctx?.reply(item);
                 }
             }
