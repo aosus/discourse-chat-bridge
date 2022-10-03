@@ -69,7 +69,7 @@ export default async function MatrixBot() {
             await database_matrix({ roomId: roomId, sender: sender, name: roomName ? roomName : name, checkRoom: checkRoom, roomIdOrAlias: roomIdOrAlias });
             await database_matrix_member({ sender: sender, name: name });
             await start(roomId, sender, name, body, event, RichReply, client);
-            await EventReply(roomId, sender, body, replySender, replyBody, event, RichReply, client);
+            await EventReply(roomId, sender, meId, body, replySender, replyBody, event, RichReply, client);
             await menu[await getMenu(sender)]?.module?.exec({
                 meId: meId,
                 roomId: roomId,

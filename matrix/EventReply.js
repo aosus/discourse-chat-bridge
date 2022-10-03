@@ -1,9 +1,9 @@
 import fs from 'fs-extra';
 import sendComment from '../discourse/sendComment.js';
 
-export default async function EventReply(roomId, sender, body, replySender, replyBody, event, RichReply, client) {
+export default async function EventReply(roomId, sender, meId, body, replySender, replyBody, event, RichReply, client) {
 
-    if (replySender?.includes('@tqw24:matrix.org') ) {
+    if (replySender?.includes(meId)) {
 
         let config = fs.readJsonSync('./config.json');
         let topic_id = replyBody?.split('رقم الموضوع:</b> ')[1];
