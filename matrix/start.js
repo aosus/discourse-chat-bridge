@@ -3,7 +3,7 @@ import { database_matrix_member } from '../module/database_matrix.js';
 
 export default async function start(roomId, sender, name, body, event, RichReply, client) {
 
-    if (body === 'خدمة' || body === 'start' || body === '#') {
+    if (body === 'خدمة' || body === 'خدمه' || body === 'start' || body === '#') {
 
         await database_matrix_member({ sender: sender, menu: 'main' }).catch(error => console.log(error));
 

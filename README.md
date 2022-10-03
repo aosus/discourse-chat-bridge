@@ -66,24 +66,24 @@
 بعد الإنتهاء من إنشاء مفتاح api قم بإستنساخ المستودع 
 
 ```bash
-git clone https://github.com/aosus/Discourse_Bridge
+git clone https://github.com/aosus/discourse_Bridge
 
 ```
 
 الآن قم بتعديل على ملف config.json
 
 ```bash
-cd Discourse_Bridge 
+cd discourse_Bridge 
 nano config.json
 ```
 
 ```json
 {
 	"url": "https://discourse.aosus.org",
-    "title_discourse": "مجتمع أسس",
-    "token_discourse": "fbb8215419b92f4b34e696af92fd1172aa5bf8d16ce5e79e4f8d6d0dddf049b1",
-    "useername_discourse": "system",
-    "token_telegram": "5492211333:AAHF6uVuIv8wGkIRtmzFT8hHyabuc4mZb_U",
+	"title_discourse": "مجتمع أسس",
+	"token_discourse": "fbb8215419b92f4b34e696af92fd1172aa5bf8d16ce5e79e4f8d6d0dddf049b1",
+	"useername_discourse": "system",
+	"token_telegram": "5492211333:AAHF6uVuIv8wGkIRtmzFT8hHyabuc4mZb_U",
 	"username_matrix": "Username to your Matrix account #aosus",
 	"password_matrix": "Password to your Matrix account #*****",
 	"homeserverUrl": "https://matrix.org",
