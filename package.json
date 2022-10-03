@@ -1,18 +1,24 @@
 {
   "name": "discourse-bridge",
   "description": "bridge between discourse and social media programs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "accessToken": "node ./matrix/accessToken.js"
   },
   "author": "rn0x",
   "license": "agpl-3.0",
   "dependencies": {
     "fs-extra": "^10.1.0",
+    "matrix-bot-sdk": "^0.6.2",
     "moment-hijri": "^2.1.2",
     "node-fetch": "^3.2.10",
     "telegraf": "^4.8.6"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/moment-hijri": "^2.1.0"
   }
 }

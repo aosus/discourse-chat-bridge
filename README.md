@@ -6,7 +6,7 @@
 جسر بين منصة Discourse وبرامج التواصل .
 
 - تيليجرام - مدعوم
-- matrix - قريباً
+- matrix - مدعوم
 
 <br>
 
@@ -79,11 +79,18 @@ nano config.json
 
 ```json
 {
-    "url": "https://discourse.aosus.org",
+	"url": "https://discourse.aosus.org",
     "title_discourse": "مجتمع أسس",
-    "token_discourse": "fbb8215419b92f4b3j87eyf7fd1172aa5bf8d16ce5e79e4f8d6d0dddf049b1",
-    "useername_discourse": "admin",
-    "token_telegram": "5492299293:AAHF6uVuIv8JnG7hnzFT8hHyabuc4mZb_U"
+    "token_discourse": "fbb8215419b92f4b34e696af92fd1172aa5bf8d16ce5e79e4f8d6d0dddf049b1",
+    "useername_discourse": "system",
+    "token_telegram": "5492211333:AAHF6uVuIv8wGkIRtmzFT8hHyabuc4mZb_U",
+	"username_matrix": "Username to your Matrix account #aosus",
+	"password_matrix": "Password to your Matrix account #*****",
+	"homeserverUrl": "https://matrix.org",
+	"accessToken": "Put your accessToken here #npm run accessToken",
+	"autoJoin": true,
+	"dataPath": "storage",
+	"encryption": true
 }
 ```
 
@@ -91,10 +98,8 @@ nano config.json
 
 ```bash
 npm i
+npm run accessToken
 npm start
 or
 node index.js
 ```
-
-
-

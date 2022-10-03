@@ -20,7 +20,7 @@ export default async function telegram() {
         await command(client, Markup); // أوامر البوت
         await EventText(client); // حدث تلقي رسالة جديده
         await EventPosts_(client); // حدث عند إنشاء موصوع جديد على discourse
-        client.launch();
+        client.launch().then(() => console.log('Telegram is ready!'));
         client.catch((error) => {
             console.log(error);
         });

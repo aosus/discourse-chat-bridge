@@ -4,7 +4,8 @@ export default async function getUserTelegram() {
 
     let chat = fs.readdirSync('./database/telegram/chat');
     let from = fs.readdirSync('./database/telegram/from');
-    var array = []
+    let array = []
+
     for (let item of chat) {
 
         let id = item.split('.json')[0]

@@ -74,7 +74,7 @@ export default new Scenes.WizardScene(
             let seCo = await sendComment(fromJson?.useername_discourse, topic_id, raw);
 
             if (seCo?.errors) {
-                for (let item of Private?.errors) {
+                for (let item of seCo?.errors) {
                     ctx?.reply(item);
                 }
             }

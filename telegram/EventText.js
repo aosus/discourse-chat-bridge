@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import database_telegram from '../module/database_telegram.js';
 import sendComment from '../discourse/sendComment.js';
 
-export default async function name(client) {
+export default async function EventText(client) {
 
     client.on('text', async (ctx) => {
 
@@ -34,7 +34,9 @@ export default async function name(client) {
                     let topic_id = caption?.split('رقم الموضوع: ')[1];
                     let seCo = await sendComment(fromJson?.useername_discourse, topic_id, body);
                     if (seCo?.errors) {
-                        ctx?.reply(seCo?.errors);
+                        for (let item of seCo?.errors) {
+                            ctx?.reply(item);
+                        }
                     }
                     else {
 
@@ -51,7 +53,9 @@ export default async function name(client) {
                     let topic_id = text?.split('رقم الموضوع: ')[1];
                     let seCo = await sendComment(fromJson?.useername_discourse, topic_id, body);
                     if (seCo?.errors) {
-                        ctx?.reply(seCo?.errors);
+                        for (let item of seCo?.errors) {
+                            ctx?.reply(item);
+                        }
                     }
                     else {
 
@@ -71,5 +75,7 @@ export default async function name(client) {
                 ctx?.reply(message);
             }
         }
+
+        console.log(`#Telegram sender: ${username_from ? username_from : id_from} ${type}: ${username_chat ? username_chat : name_chat}`);
     });
 }

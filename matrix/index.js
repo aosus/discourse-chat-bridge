@@ -1,0 +1,111 @@
+import {
+    AutojoinRoomsMixin,
+    LogLevel,
+    LogService,
+    MatrixClient,
+    RustSdkCryptoStorageProvider,
+    SimpleFsStorageProvider,
+    RichReply,
+    RichRepliesPreprocessor
+} from "matrix-bot-sdk";
+import fs from 'fs-extra';
+import getMenu from '../module/getMenu.js';
+import start from './start.js';
+import menu from '../module/menu.js';
+import { database_matrix , database_matrix_member} from '../module/database_matrix.js';
+import EventPosts_ from './EventPosts.js';
+import EventReply from './EventReply.js';
+
+export default async function MatrixBot() {
+
+    try {
+
+        LogService.setLevel(LogLevel.name);
+
+        let config = fs.readJSONSync("./config.json");
+        let storage = new SimpleFsStorageProvider("./matrix.json");
+        // Prepare a crypto store if we need that
+        let cryptoStore;
+        if (config.encryption) {
+            cryptoStore = new RustSdkCryptoStorageProvider("./encrypted");
+        }
+        // Now create the client
+        let client = new MatrixClient(config.homeserverUrl, config.accessToken, storage, cryptoStore);
+        // Setup the autojoin mixin (if enabled)
+        if (config.autoJoin) {
+            AutojoinRoomsMixin.setupOnClient(client);
+        }
+
+        client.addPreprocessor(new RichRepliesPreprocessor(false));
+
+        client.on("room.message", async (roomId, event) => {
+
+            if (!event?.content) return; // Ignore redacted events that come through
+            if (event?.sender === await client.getUserId()) return; // Ignore ourselves
+            if (event?.sender.includes('telegram')) return; // Ignore user telegram
+            if (event?.content?.msgtype !== "m.text") return; // Ignore non-text messages
+            if (event.unsigned.age > 1000 * 60) return; // older than a minute
+
+            let meId = await client.getUserId();
+            let sender = event?.sender;
+            let roomIdOrAlias = await client?.getPublishedAlias(roomId)
+            let Profile = await client.getUserProfile(sender);
+            let body = event?.content?.body;
+            let name = Profile?.displayname;
+            let external_url = event?.content?.external_url;
+            let msgtype = event?.content?.msgtype;
+            let replyBody = event?.mx_richreply?.fallbackHtmlBody;
+            let replySender = event?.mx_richreply?.fallbackSender;
+            let DirectoryVisibility = await client.getDirectoryVisibility(roomId);
+            let type = event?.type;
+            let event_id = event?.event_id;
+            let roomState = await client.getRoomState(roomId);
+            let roomfindName = roomState.find(e => e?.type === 'm.room.name');
+            let roomfindAdmin = roomState.find(e => e?.type === 'm.room.power_levels');
+            let roomName = roomfindName?.content?.name;
+            let checkRoom = roomName ? 'room' : 'direct';
+            let usersAdmin = Object.keys(roomfindAdmin?.content?.users);
+            
+            await database_matrix({ roomId: roomId, sender: sender, name: roomName ? roomName : name, checkRoom: checkRoom, roomIdOrAlias: roomIdOrAlias });
+            await database_matrix_member({ sender: sender, name: name });
+            await start(roomId, sender, name, body, event, RichReply, client);
+            await EventReply(roomId, sender, body, replySender, replyBody, event, RichReply, client);
+            await menu[await getMenu(sender)]?.module?.exec({
+                meId: meId,
+                roomId: roomId,
+                sender: sender, 
+                name: name, 
+                checkRoom: checkRoom, 
+                roomIdOrAlias: roomIdOrAlias,
+                body: body,
+                replyBody: replyBody,
+                replySender: replySender,
+                roomName: roomName ? roomName : name,
+                event_id: event_id,
+                usersAdmin: usersAdmin,
+                RichReply: RichReply,
+                event: event,
+                client: client
+            });
+
+            console.log(`#Matrix sender: ${sender} ${checkRoom}: ${roomIdOrAlias ? roomIdOrAlias : roomName ? roomName : name}`);
+
+
+        });
+
+        await EventPosts_(client).catch(error => console.log(error));
+
+        await client.start().then(() => console.log('Matrix is ready!'));
+
+    } catch (error) {
+
+        console.log(error);
+
+        if (error?.body[0]?.errcode === 'M_UNKNOWN') {
+            
+            console.log('Type the command npm run accessToken and then restart the bot');
+        }
+
+    }
+
+}

@@ -56,7 +56,7 @@ export default new Scenes.WizardScene(
                             message += `▪ المعرف: ${item?.id}\n\n`
 
                         }
-                        message += 'لتلقي المواضيع من جميع الفئات إرسل رقم 0'
+                        message += 'لتلقي المواضيع من جميع الفئات ارسل رقم 0'
                         await ctx?.reply(message, { parse_mode: 'HTML' });
                     });
                     return ctx.wizard.next();
