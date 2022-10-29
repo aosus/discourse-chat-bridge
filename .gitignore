@@ -1,6 +1,5 @@
 yarn.lock
 node_modules
-package-lock.json
 database
 encrypted
 matrix.json
