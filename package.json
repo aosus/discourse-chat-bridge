@@ -8,7 +8,7 @@
     "start": "node index.js",
     "accessToken": "node ./matrix/accessToken.js"
   },
-  "author": "rn0x",
+  "author": "aosus",
   "license": "agpl-3.0",
   "dependencies": {
     "fs-extra": "^10.1.0",
