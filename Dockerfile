@@ -1,25 +1,18 @@
-FROM node:lts-slim as builder
-
-# Create app directory
+#https://snyk.io/blog/10-best-practices-to-containerize-nodejs-web-applications-with-docker/
+# --------------> The build image
+FROM node:lts AS build
+RUN apt-get update && apt-get install -y --no-install-recommends dumb-init
 WORKDIR /app
-
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
-
+COPY package*.json /app
 RUN npm ci --only=production --omit=dev
 
-FROM node:lts-slim as app
-WORKDIR /app
-
-USER node
-COPY --from=builder --chown=node:node /app/node_modules ./node_modules
-COPY --chown=node:node . .
-RUN chown node:node .
+# --------------> The production image
+FROM node:lts-slim
 
 ENV NODE_ENV production
-
-ENV NEXT_TELEMETRY_DISABLED 1
-
-CMD [ "node", "index.js" ]
+COPY --from=build /usr/bin/dumb-init /usr/bin/dumb-init
+USER node
+WORKDIR /app
+COPY --chown=node:node --from=build /app/node_modules /app/node_modules
+COPY --chown=node:node . /app
+CMD ["dumb-init", "node", "index.js"]
