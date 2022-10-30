@@ -15,7 +15,8 @@ WORKDIR /app
 
 USER node
 
-COPY --from=builder --chown=node:node . .
+COPY --from=builder --chown=node:node /app/node_modules ./node_modules
+
 COPY --chown=node:node . .
 
 ENV NODE_ENV production
