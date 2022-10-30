@@ -18,9 +18,6 @@ USER node
 COPY --from=builder --chown=node:node . .
 COPY --chown=node:node . .
 
-# Bundle app source
-COPY . .
-
 ENV NODE_ENV production
 
 ENV NEXT_TELEMETRY_DISABLED 1
