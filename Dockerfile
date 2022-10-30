@@ -1,4 +1,4 @@
-FROM node:lts as builder
+FROM node:lts-slim as builder
 
 # Create app directory
 WORKDIR /app
@@ -10,7 +10,7 @@ COPY package*.json ./
 
 RUN npm ci --only=production --omit=dev
 
-FROM node:lts as app
+FROM node:lts-slim as app
 WORKDIR /app
 
 USER node
