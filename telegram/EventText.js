@@ -6,7 +6,6 @@ export default async function EventText(client) {
 
     client.on('text', async (ctx) => {
 
-        let config = fs.readJsonSync('config.json');
         let id_from = ctx?.from?.id;
         let id_chat = ctx?.chat?.id;
         let username_from = ctx?.from?.username;
@@ -17,6 +16,7 @@ export default async function EventText(client) {
         let message_id = ctx?.message?.message_id;
         let me = ctx?.botInfo
         let body = ctx?.message.text;
+        let config = fs.readJsonSync('./config.json');
 
         await database_telegram(id_from, username_from, name_from, 'from'); // from || user
         await database_telegram(id_chat, username_chat, name_chat, 'chat', message_id); // chat || supergroup or group
@@ -42,7 +42,7 @@ export default async function EventText(client) {
 
                         let topic_slug = seCo?.topic_slug
                         let post_number = seCo?.post_number
-                        let message = `<b>تم نشر التعليق ✅ <a href='${config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
+                        let message = `<b>تم نشر التعليق ✅ <a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
                         await ctx?.reply(message, { parse_mode: 'HTML', disable_web_page_preview: true });
 
                     }
@@ -61,7 +61,7 @@ export default async function EventText(client) {
 
                         let topic_slug = seCo?.topic_slug
                         let post_number = seCo?.post_number
-                        let message = `<b>تم نشر التعليق ✅ <a href='${config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
+                        let message = `<b>تم نشر التعليق ✅ <a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
                         await ctx?.reply(message, { parse_mode: 'HTML', disable_web_page_preview: true });
 
                     }

@@ -5,7 +5,6 @@ export default async function join_left(client) {
 
     client.on("my_chat_member", async (ctx) => {
 
-        let config = fs.readJsonSync('config.json');
         let id_from = ctx?.from?.id;
         let id_chat = ctx?.chat?.id;
         let username_chat = ctx?.chat?.username;

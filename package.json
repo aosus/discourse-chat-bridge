@@ -1,7 +1,7 @@
 {
   "name": "discourse-bridge",
   "description": "bridge between discourse and social media programs",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -11,6 +11,7 @@
   "author": "aosus",
   "license": "agpl-3.0",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "fs-extra": "^10.1.0",
     "matrix-bot-sdk": "^0.6.2",
     "moment-hijri": "^2.1.2",

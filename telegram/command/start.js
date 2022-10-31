@@ -1,10 +1,10 @@
-import fs from 'fs-extra';
 import database_telegram from '../../module/database_telegram.js';
+import fs from 'fs-extra';
 
 export default async function start(client, Markup) {
 
     client.start(async (ctx) => {
-        let config = fs.readJsonSync('config.json');
+        let config = fs.readJsonSync('./config.json');
         let id_from = ctx?.from?.id;
         let id_chat = ctx?.chat?.id;
         let username_from = ctx?.from?.username;
@@ -14,16 +14,16 @@ export default async function start(client, Markup) {
         let type = ctx?.chat?.type;
         let message_id = ctx?.message?.message_id;
         let but_1 = [
-            Markup.button.url(config?.title_discourse, config?.url)
+            Markup.button.url(process.env.title_discourse || config?.title_discourse, process.env.url || config?.url)
         ];
         let button = Markup.inlineKeyboard([but_1]);
-        let message = `<b>مرحبا بك ${name_from} في جسر ${config?.title_discourse} 👋</b> \n\n`
+        let message = `<b>مرحبا بك ${name_from} في جسر ${process.env.title_discourse || config?.title_discourse} 👋</b> \n\n`
         message += '▪ عرض آخر موضوع تم نشره 📄 \n/get_latest_posts \n'
         message += '▪ عرض الفئات ⬇️ \n/getCategories \n'
         message += '▪ كتابة موضوع جديد 📝 \n/CreatePosts \n'
         message += '▪ كتابة تعليق جديد 💬 \n/sendComment \n'
         message += '▪ إرسال رسالة خاصة 🔒 \n/sendMessagePrivate \n'
-        message += `▪ ربط حسابك على ${config?.title_discourse} \n/discourse \n`
+        message += `▪ ربط حسابك على ${process.env.title_discourse || config?.title_discourse} \n/discourse \n`
         message += '▪ تفعيل البوت \n/activation'
 
         if (type === 'group' || type === 'supergroup') {

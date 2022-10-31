@@ -66,14 +66,43 @@
 بعد الإنتهاء من إنشاء مفتاح api قم بإستنساخ المستودع 
 
 ```bash
-git clone https://github.com/aosus/discourse_Bridge
+git clone https://github.com/aosus/discourse_bridge
 
 ```
+آلان قم بإضافة متغيرات البيئة
+- url
+- title_discourse
+- token_discourse
+- useername_discourse
+- token_telegram
+- username_matrix
+- password_matrix
+- homeserverUrl
+- accessToken
+- autoJoin
+- dataPath
+- encryption
 
-الآن قم بتعديل على ملف config.json
+مثال 
+
+linux
 
 ```bash
-cd discourse_Bridge 
+export url="https://discourse.aosus.org"
+```
+
+windows
+
+```bash
+setx url="https://discourse.aosus.org"
+```
+
+أو قم بتعديل على ملف config.json
+``` ملاحظة / الأولوية لمتغيرات البيئة اذا وجدت ```
+
+
+```bash
+cd discourse_bridge 
 nano config.json
 ```
 
@@ -94,7 +123,8 @@ nano config.json
 }
 ```
 
-بعد التعديل على ملف config.json قم بتثبيت التبعيات وتشغيل البوت
+بعد التعديل على ملف config.json قم بحفظه
+ثم قم بتثبيت التبعيات وتشغيل البوت
 
 ```bash
 npm i
@@ -103,3 +133,6 @@ npm start
 or
 node index.js
 ```
+
+
+``` ملاحظة / عند كتابة الأمر npm run accessToken سيتم توليد التوكن لـ (Matrix) بشكل تلقائي وحفظه في ملف config.json ```
