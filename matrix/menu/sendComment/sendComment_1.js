@@ -5,8 +5,9 @@ export default {
     async exec({ meId, roomId, sender, name, checkRoom, roomIdOrAlias, body, replyBody, replySender, roomName, event_id, usersAdmin, RichReply, event, client }) {
 
         let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
-
-        if (body.includes(process.env.url)) {
+        let config = fs.readJsonSync('./config.json');
+        
+        if (body.includes(process.env.url || config?.url)) {
 
             let message = 'قم بكتابة التعليق 📝'
 

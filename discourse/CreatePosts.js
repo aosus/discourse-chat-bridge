@@ -1,9 +1,11 @@
 import fetch from 'node-fetch';
+import fs from 'fs-extra';
 
 export default async function CreatePosts(Api_Username, title, raw, category) {
 
     try {
 
+        let config = fs.readJsonSync('./config.json');
         let body = {
 
             "title": title,
@@ -14,12 +16,12 @@ export default async function CreatePosts(Api_Username, title, raw, category) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Api-Key': process.env.token_discourse,
+                'Api-Key': process.env.token_discourse || config?.token_discourse,
                 'Api-Username': Api_Username
             },
             body: JSON.stringify(body),
         }
-        let response = await fetch(process.env.url + '/posts.json ', init);
+        let response = await fetch(process.env.url || config?.url + '/posts.json ', init);
         let data = await response.json();
 
         if (data?.action && data?.errors) {

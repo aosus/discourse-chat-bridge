@@ -22,9 +22,10 @@ export default async function EventReply(roomId, sender, meId, body, replySender
             }
             else {
 
+                let config = fs.readJsonSync('./config.json');
                 let topic_slug = seCo?.topic_slug
                 let post_number = seCo?.post_number
-                let message = `<b>تم نشر التعليق ✅ <a href='${process.env.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
+                let message = `<b>تم نشر التعليق ✅ <a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
                 let reply = RichReply.createFor(roomId, event, message, message);
                 await client.sendMessage(roomId, reply).catch(error => console.log(error));
 

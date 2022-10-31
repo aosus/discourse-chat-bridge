@@ -65,7 +65,8 @@ export default new Scenes.WizardScene(
 
         if (ctx.message?.text !== undefined) {
 
-            let url = process.env.url
+            let config = fs.readJsonSync('./config.json');
+            let url = process.env.url || config?.url
             let id_from = ctx?.from?.id;
             let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
             let category = ctx.wizard.state.data.category;

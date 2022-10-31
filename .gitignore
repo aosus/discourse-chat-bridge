@@ -1,6 +1,5 @@
 yarn.lock
 node_modules
 database
-encrypted
-matrix.json
+storage
 preview.png

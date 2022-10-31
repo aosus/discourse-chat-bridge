@@ -15,23 +15,25 @@ import { database_matrix , database_matrix_member} from '../module/database_matr
 import EventPosts_ from './EventPosts.js';
 import EventReply from './EventReply.js';
 import * as path from "path";
+import fs from 'fs-extra';
 
 export default async function MatrixBot() {
 
     try {
 
+        let config = fs.readJsonSync('./config.json');
         LogService.setLevel(LogLevel.name);
 
-        let storage = new SimpleFsStorageProvider(path.join(process.env.dataPath, "matrix.json"));
+        let storage = new SimpleFsStorageProvider(path.join(process.env.dataPath || config?.dataPath, "matrix.json"));
         // Prepare a crypto store if we need that
         let cryptoStore;
-        if (process.env.encryption === "true") {
-            cryptoStore = new RustSdkCryptoStorageProvider(path.join(process.env.dataPath, "encrypted"));
+        if (process.env.encryption === "true" || config?.encryption) {
+            cryptoStore = new RustSdkCryptoStorageProvider(path.join(process.env.dataPath || config?.dataPath, "encrypted"));
         }
         // Now create the client
-        let client = new MatrixClient(process.env.homeserverUrl, process.env.accessToken, storage, cryptoStore);
+        let client = new MatrixClient(process.env.homeserverUrl || config?.homeserverUrl, process.env.accessToken || config?.accessToken, storage, cryptoStore);
         // Setup the autojoin mixin (if enabled)
-        if (process.env.autoJoin === "true") {
+        if (process.env.autoJoin === "true" || config?.autoJoin) {
             AutojoinRoomsMixin.setupOnClient(client);
         }
 

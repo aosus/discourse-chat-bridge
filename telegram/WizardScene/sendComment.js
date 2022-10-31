@@ -2,6 +2,8 @@ import { Scenes } from 'telegraf';
 import fs from 'fs-extra';
 import sendComment from '../../discourse/sendComment.js';
 
+let config = fs.readJsonSync('./config.json');
+
 export default new Scenes.WizardScene(
     'sendComment',
     async (ctx) => {
@@ -26,7 +28,7 @@ export default new Scenes.WizardScene(
 
             let text = ctx.message?.text;
 
-            if (text.includes(process.env.url)) {
+            if (text.includes(process.env.url || config?.url)) {
 
                 let sp = text.split('');
 
@@ -64,7 +66,7 @@ export default new Scenes.WizardScene(
 
         if (ctx.message?.text !== undefined) {
 
-            let url = process.env.url
+            let url = process.env.url || config?.url
             let id_from = ctx?.from?.id;
             let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
             let raw = ctx.message?.text;

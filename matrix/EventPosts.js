@@ -3,6 +3,7 @@ import moment from 'moment-hijri';
 import EventPosts from '../discourse/EventPosts.js';
 import getrRoomMatrix from '../module/getrRoomMatrix.js';
 import sendFile from './sendFile.js';
+import fs from 'fs-extra';
 
 export default async function EventPosts_(client) {
 
@@ -10,6 +11,7 @@ export default async function EventPosts_(client) {
 
         try {
 
+            let config = fs.readJsonSync('./config.json');
             let name = e?.name;
             let username = e?.username;
             let created_at = e?.created_at;
@@ -21,7 +23,7 @@ export default async function EventPosts_(client) {
             let category_id = e?.category_id;
             let cooked = e?.cooked;
             let raw = e?.raw;
-            let response = await fetch(process.env.url + `/t/${topic_slug}/${topic_id}`, { method: 'GET' });
+            let response = await fetch(process.env.url || config?.url + `/t/${topic_slug}/${topic_id}`, { method: 'GET' });
             let data = await response?.text();
 
             if (data.includes('itemprop="image"')) {
@@ -32,8 +34,8 @@ export default async function EventPosts_(client) {
 
                     if (item?.categories === category_id) {
                         let preview = data.split('itemprop="image" href="')[1]?.split('">')[0];
-                        let caption = `<b><a href='${process.env.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url}/u/${username}'>${name}</a> <br>`;
+                        let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
+                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
                         caption += `<b>التاريخ:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
                         caption += `<b>رقم الموضوع:</b> ${topic_id}`;
 
@@ -48,8 +50,8 @@ export default async function EventPosts_(client) {
 
                     else if (item?.categories === 0) {
                         let preview = data.split('itemprop="image" href="')[1]?.split('">')[0];
-                        let caption = `<b><a href='${process.env.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url}/u/${username}'>${name}</a> <br>`;
+                        let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
+                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
                         caption += `<b>التاريخ:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
                         caption += `<b>رقم الموضوع:</b> ${topic_id}`;
 
@@ -72,8 +74,8 @@ export default async function EventPosts_(client) {
                 for (let item of getRoom?.array) {
 
                     if (item?.categories === category_id) {
-                        let caption = `<b><a href='${process.env.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url}/u/${username}'>${name}</a> <br>`;
+                        let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
+                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
                         caption += `<b>التاريخ:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
                         caption += `<b>رقم الموضوع:</b> ${topic_id}`;
                         await client.sendMessage(item?.roomId, {
@@ -85,8 +87,8 @@ export default async function EventPosts_(client) {
                     }
 
                     else if (item?.categories === 0) {
-                        let caption = `<b><a href='${process.env.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url}/u/${username}'>${name}</a> <br>`;
+                        let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
+                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
                         caption += `<b>التاريخ:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
                         caption += `<b>رقم الموضوع:</b> ${topic_id}`;
                         await client.sendMessage(item?.roomId, {

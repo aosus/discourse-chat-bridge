@@ -11,6 +11,7 @@ export default async function EventPosts_(client) {
 
         try {
 
+            let config = fs.readJsonSync('./config.json');
             let name = e?.name;
             let username = e?.username;
             let created_at = e?.created_at;
@@ -22,7 +23,7 @@ export default async function EventPosts_(client) {
             let category_id = e?.category_id;
             let cooked = e?.cooked;
             let raw = e?.raw;
-            let response = await fetch(process.env.url + `/t/${topic_slug}/${topic_id}`, { method: 'GET' });
+            let response = await fetch(process.env.url || config?.url + `/t/${topic_slug}/${topic_id}`, { method: 'GET' });
             let data = await response.text();
 
             if (data.includes('itemprop="image"')) {
@@ -36,8 +37,8 @@ export default async function EventPosts_(client) {
 
                     if (chat?.categories === category_id) {
                         let preview = data.split('itemprop="image" href="')[1]?.split('">')[0];
-                        let caption = `<b><a href='${process.env.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> \n\n`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url}/u/${username}'>${name}</a> \n`;
+                        let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> \n\n`;
+                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> \n`;
                         caption += `<b>وقت النشر:</b> ${moment(created_at).format('LT')}\n`;
                         caption += `<b>رقم الموضوع:</b> ${topic_id}`;
                         await client.telegram.sendPhoto(item, { url: preview }, { caption: caption, parse_mode: 'HTML', disable_web_page_preview: true });
@@ -45,8 +46,8 @@ export default async function EventPosts_(client) {
 
                     else if (chat?.categories === 0) {
                         let preview = data.split('itemprop="image" href="')[1]?.split('">')[0];
-                        let caption = `<b><a href='${process.env.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> \n\n`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url}/u/${username}'>${name}</a> \n`;
+                        let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> \n\n`;
+                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> \n`;
                         caption += `<b>وقت النشر:</b> ${moment(created_at).format('LT')}\n`;
                         caption += `<b>رقم الموضوع:</b> ${topic_id}`;
                         await client.telegram.sendPhoto(item, { url: preview }, { caption: caption, parse_mode: 'HTML', disable_web_page_preview: true });
@@ -65,16 +66,16 @@ export default async function EventPosts_(client) {
                     let chat = fromJson ? fs.readJsonSync(`./database/telegram/from/${item}.json`) : fs.readJsonSync(`./database/telegram/chat/${item}.json`);
 
                     if (chat?.categories === category_id) {
-                        let caption = `<b><a href='${process.env.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> \n\n`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url}/u/${username}'>${name}</a> \n`;
+                        let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> \n\n`;
+                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> \n`;
                         caption += `<b>وقت النشر:</b> ${moment(created_at).format('LT')}\n`;
                         caption += `<b>رقم الموضوع:</b> ${topic_id}`;
                         await client.telegram.sendMessage(item, caption, { parse_mode: 'HTML', disable_web_page_preview: true });
                     }
 
                     else if (chat?.categories === 0) {
-                        let caption = `<b><a href='${process.env.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> \n\n`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url}/u/${username}'>${name}</a> \n`;
+                        let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> \n\n`;
+                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> \n`;
                         caption += `<b>وقت النشر:</b> ${moment(created_at).format('LT')}\n`;
                         caption += `<b>رقم الموضوع:</b> ${topic_id}`;
                         await client.telegram.sendMessage(item, caption, { parse_mode: 'HTML', disable_web_page_preview: true });
