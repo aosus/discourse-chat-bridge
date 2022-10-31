@@ -3,14 +3,12 @@ import fs from 'fs-extra';
 
 export default async function EventPosts(callback) {
 
-    let config = fs.readJsonSync('config.json');
-
     setInterval(async () => {
 
         try {
 
             let EventPostsJson = fs.readJsonSync('./database/EventPosts.json');
-            let response = await fetch(config?.url + `/posts.json`, { method: 'GET' });
+            let response = await fetch(process.env.url + `/posts.json`, { method: 'GET' });
             let data = await response.json();
             let item = data?.latest_posts[0]
             let id = item.id;

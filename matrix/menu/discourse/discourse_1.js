@@ -7,13 +7,12 @@ export default {
 
         if (body) {
 
-            let config = fs.readJsonSync('config.json');
             let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
             let title = 'رمز التحقق الخاص بك'
             let raw = `رمز التحقق الخاص بـ ${memberJson?.sender ? sender : memberJson?.name} <br><br>`;
             raw += memberJson?.verification_code;
             memberJson.useername_discourse = body;
-            let Private = await sendMessagePrivate(config?.useername_discourse, title, raw, body).catch(error => console.log(error));
+            let Private = await sendMessagePrivate(process.env.useername_discourse, title, raw, body).catch(error => console.log(error));
 
             fs.writeJsonSync(`./database/matrix/member/${sender}.json`, memberJson, { spaces: '\t' });
             

@@ -4,10 +4,9 @@ import { database_matrix_member } from '../../../module/database_matrix.js';
 export default {
     async exec({ meId, roomId, sender, name, checkRoom, roomIdOrAlias, body, replyBody, replySender, roomName, event_id, usersAdmin, RichReply, event, client }) {
 
-        let config = fs.readJsonSync(`./config.json`);
         let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
 
-        if (body.includes(config?.url)) {
+        if (body.includes(process.env.url)) {
 
             let message = 'قم بكتابة التعليق 📝'
 

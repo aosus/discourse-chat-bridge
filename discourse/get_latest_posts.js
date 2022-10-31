@@ -1,12 +1,10 @@
 import fetch from 'node-fetch';
-import fs from 'fs-extra';
 
 export default async function get_latest_posts() {
 
     try {
 
-        let config = fs.readJsonSync('config.json');
-        let response = await fetch(config?.url + `/posts.json`, { method: 'GET' });
+        let response = await fetch(process.env.url + `/posts.json`, { method: 'GET' });
         let data = await response.json();
 
         if (data?.action && data?.errors) {

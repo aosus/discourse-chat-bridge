@@ -8,8 +8,7 @@ export default {
         if (body) {
 
             let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
-            let config = fs.readJsonSync('./config.json');
-            let url = config?.url
+            let url = process.env.url
             let category = memberJson?.CreatePosts_1;
             let title = memberJson?.CreatePosts_2;
             let raw = body;

@@ -31,14 +31,13 @@ export default new Scenes.WizardScene(
 
         if (ctx.message?.text !== undefined) {
             let id_from = ctx?.from?.id;
-            let config = fs.readJsonSync(`config.json`);
             let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
             fromJson.useername_discourse = ctx.message?.text;
             fs.writeJsonSync(`./database/telegram/from/${id_from}.json`, fromJson, { spaces: '\t' });
             let title = 'رمز التحقق الخاص بك'
             let raw = `رمز التحقق الخاص بـ ${fromJson?.username ? '@' + fromJson?.username : fromJson?.name} \n\n`;
             raw += fromJson?.verification_code;
-            let Private = await sendMessagePrivate(config?.useername_discourse, title, raw, ctx.message?.text);
+            let Private = await sendMessagePrivate(process.env.useername_discourse, title, raw, ctx.message?.text);
             if (Private?.errors) {
                 for (let item of Private?.errors) {
                     ctx?.reply(item);

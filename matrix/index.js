@@ -8,13 +8,13 @@ import {
     RichReply,
     RichRepliesPreprocessor
 } from "matrix-bot-sdk";
-import fs from 'fs-extra';
 import getMenu from '../module/getMenu.js';
 import start from './start.js';
 import menu from '../module/menu.js';
 import { database_matrix , database_matrix_member} from '../module/database_matrix.js';
 import EventPosts_ from './EventPosts.js';
 import EventReply from './EventReply.js';
+import * as path from "path";
 
 export default async function MatrixBot() {
 
@@ -22,17 +22,16 @@ export default async function MatrixBot() {
 
         LogService.setLevel(LogLevel.name);
 
-        let config = fs.readJSONSync("./config.json");
-        let storage = new SimpleFsStorageProvider("./matrix.json");
+        let storage = new SimpleFsStorageProvider(path.join(process.env.dataPath, "matrix.json"));
         // Prepare a crypto store if we need that
         let cryptoStore;
-        if (config.encryption) {
-            cryptoStore = new RustSdkCryptoStorageProvider("./encrypted");
+        if (process.env.encryption === "true") {
+            cryptoStore = new RustSdkCryptoStorageProvider(path.join(process.env.dataPath, "encrypted"));
         }
         // Now create the client
-        let client = new MatrixClient(config.homeserverUrl, config.accessToken, storage, cryptoStore);
+        let client = new MatrixClient(process.env.homeserverUrl, process.env.accessToken, storage, cryptoStore);
         // Setup the autojoin mixin (if enabled)
-        if (config.autoJoin) {
+        if (process.env.autoJoin === "true") {
             AutojoinRoomsMixin.setupOnClient(client);
         }
 

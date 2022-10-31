@@ -1,13 +1,11 @@
-import fs from 'fs-extra';
 import getCategories from '../../discourse/getCategories.js';
 
 export default async function getCategories_(client) {
 
     client.command('getCategories', async (ctx) => {
-        let config = fs.readJsonSync('config.json');
         let Categories = await getCategories();
-        let url = config?.url;
-        let title = config?.title_discourse;
+        let url = process.env.url;
+        let title = process.env.title_discourse;
         let message = `فئات ${title} ⬇️\n\n`
 
         for (let item of Categories) {
