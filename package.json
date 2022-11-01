@@ -1,7 +1,7 @@
 {
   "name": "discourse-chat-bridge",
   "description": "bridge between discourse and social media programs",
-  "version": "1.0.5",
+  "version": "1.0.0",
   "main": "index.js",
   "type": "module",
   "scripts": {
