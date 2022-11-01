@@ -1,15 +1,17 @@
 import fs from 'fs-extra';
 import { database_matrix_member } from '../../../module/database_matrix.js';
+import Translation from '../../../module/translation.js';
 
 export default {
     async exec({ meId, roomId, sender, name, checkRoom, roomIdOrAlias, body, replyBody, replySender, roomName, event_id, usersAdmin, RichReply, event, client }) {
 
         let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
         let config = fs.readJsonSync('./config.json');
-        
+        let translation = await Translation(`${process.env.language || config?.language}`);
+
         if (body.includes(process.env.url || config?.url)) {
 
-            let message = 'قم بكتابة التعليق 📝'
+            let message = `${translation.write_comment} 📝`
 
             let sp = body?.split('');
 
@@ -36,7 +38,7 @@ export default {
 
         else if (!isNaN(body)) {
 
-            let message = 'قم بكتابة التعليق 📝'
+            let message = `${translation.write_comment} 📝`
             let reply = RichReply.createFor(roomId, event, message, message);
             await client.sendMessage(roomId, reply).catch(error => console.log(error));
             memberJson.sendComment_1 = Number(body);
@@ -45,8 +47,8 @@ export default {
         }
 
         else {
-            let message = 'إدخال خاطئ ❌ <br><br>'
-            message += 'للرجوع للقائمة الرئيسية ارسل #'
+            let message = `${translation.err_wrong_entry} ❌ <br><br>`
+            message += `${translation.back_main_menu}`
             let reply = RichReply.createFor(roomId, event, message, message);
             await client.sendMessage(roomId, reply).catch(error => console.log(error));
         }

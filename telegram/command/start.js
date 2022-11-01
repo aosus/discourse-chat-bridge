@@ -1,10 +1,12 @@
 import database_telegram from '../../module/database_telegram.js';
 import fs from 'fs-extra';
+import Translation from '../../module/translation.js';
 
 export default async function start(client, Markup) {
 
     client.start(async (ctx) => {
         let config = fs.readJsonSync('./config.json');
+        let translation = await Translation(`${process.env.language || config?.language}`);
         let id_from = ctx?.from?.id;
         let id_chat = ctx?.chat?.id;
         let username_from = ctx?.from?.username;
@@ -17,14 +19,14 @@ export default async function start(client, Markup) {
             Markup.button.url(process.env.title_discourse || config?.title_discourse, process.env.url || config?.url)
         ];
         let button = Markup.inlineKeyboard([but_1]);
-        let message = `<b>مرحبا بك ${name_from} في جسر ${process.env.title_discourse || config?.title_discourse} 👋</b> \n\n`
-        message += '▪ عرض آخر موضوع تم نشره 📄 \n/get_latest_posts \n'
-        message += '▪ عرض الفئات ⬇️ \n/getCategories \n'
-        message += '▪ كتابة موضوع جديد 📝 \n/CreatePosts \n'
-        message += '▪ كتابة تعليق جديد 💬 \n/sendComment \n'
-        message += '▪ إرسال رسالة خاصة 🔒 \n/sendMessagePrivate \n'
-        message += `▪ ربط حسابك على ${process.env.title_discourse || config?.title_discourse} \n/discourse \n`
-        message += '▪ تفعيل البوت \n/activation'
+        let message = `<b>${translation.welcome} ${name_from} ${translation.in_the_bridge} ${process.env.title_discourse || config?.title_discourse} 👋</b> \n\n`
+        message += `▪ ${translation.view_last_topic} 📄 \n/get_latest_posts \n`
+        message += `▪ ${translation.view_categories} ⬇️ \n/getCategories \n`
+        message += `▪ ${translation.write_new_topic} 📝 \n/CreatePosts \n`
+        message += `▪ ${translation.write_new_comment} 💬 \n/sendComment \n`
+        message += `▪ ${translation.send_message_private} 🔒 \n/sendMessagePrivate \n`
+        message += `▪ ${translation.link_your_account_to} ${process.env.title_discourse || config?.title_discourse} \n/discourse \n`
+        message += `▪ ${translation.activate_the_bot} \n/activation`
 
         if (type === 'group' || type === 'supergroup') {
 

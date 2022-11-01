@@ -1,22 +1,25 @@
 import fs from 'fs-extra';
 import { database_matrix_member } from '../../../module/database_matrix.js';
 import sendMessagePrivate from '../../../discourse/sendMessagePrivate.js';
+import Translation from '../../../module/translation.js';
 
 export default {
     async exec({ meId, roomId, sender, name, checkRoom, roomIdOrAlias, body, replyBody, replySender, roomName, event_id, usersAdmin, RichReply, event, client }) {
 
+        let config = fs.readJsonSync('./config.json');
+        let translation = await Translation(`${process.env.language || config?.language}`);
+
         if (body) {
 
-            let config = fs.readJsonSync('./config.json');
             let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
-            let title = 'رمز التحقق الخاص بك'
-            let raw = `رمز التحقق الخاص بـ ${memberJson?.sender ? sender : memberJson?.name} <br><br>`;
+            let title = `${translation.verification_code}`
+            let raw = `${translation.verification_code_for} ${memberJson?.sender ? sender : memberJson?.name} <br><br>`;
             raw += memberJson?.verification_code;
             memberJson.useername_discourse = body;
             let Private = await sendMessagePrivate(process.env.useername_discourse || config?.useername_discourse, title, raw, body).catch(error => console.log(error));
 
             fs.writeJsonSync(`./database/matrix/member/${sender}.json`, memberJson, { spaces: '\t' });
-            
+
             if (Private?.errors) {
                 for (let item of Private?.errors) {
                     let reply = RichReply.createFor(roomId, event, item, item);
@@ -24,8 +27,8 @@ export default {
                 }
             }
             else {
-                let message_1 = 'تم إرسال رمز التحقق الخاص بك على الخاص على منصة discourse ✅'
-                let message_2 = 'قم بكتابة الرمز المرسل إليك لتفعيل الجسر 📝'
+                let message_1 = `${translation.send_verification_code} ✅`
+                let message_2 = `${translation.write_verification_code} 📝`
                 let reply_1 = RichReply.createFor(roomId, event, message_1, message_1);
                 let reply_2 = RichReply.createFor(roomId, event, message_2, message_2);
                 await client.sendMessage(roomId, reply_1).catch(error => console.log(error));
@@ -35,8 +38,8 @@ export default {
         }
 
         else {
-            let message = 'إدخال خاطئ ❌ <br><br>'
-            message += 'للرجوع للقائمة الرئيسية ارسل #'
+            let message = `${translation.err_wrong_entry} ❌ <br><br>`
+            message += `${translation.back_main_menu}`
             let reply = RichReply.createFor(roomId, event, message, message);
             await client.sendMessage(roomId, reply).catch(error => console.log(error));
         }

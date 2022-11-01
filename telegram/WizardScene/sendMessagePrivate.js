@@ -1,6 +1,10 @@
 import { Scenes, Markup } from 'telegraf';
 import fs from 'fs-extra';
 import sendMessagePrivate from '../../discourse/sendMessagePrivate.js';
+import Translation from '../../module/translation.js';
+
+let config = fs.readJsonSync('./config.json');
+let translation = await Translation(`${process.env.language || config?.language}`);
 
 export default new Scenes.WizardScene(
     'sendMessagePrivate',
@@ -9,14 +13,14 @@ export default new Scenes.WizardScene(
         let id_from = ctx?.from?.id;
         let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
         if (fromJson?.access === false) {
-            let message = 'يجب عليك اولاً ربط حسابك /discourse ❌'
+            let message = `${translation.first_link_your_account} /discourse ❌`
             ctx?.reply(message);
             return ctx.scene.leave();
         }
 
         else {
 
-            ctx?.reply('قم بكتابة إسم المستخدم المرسل اليه 📝');
+            ctx?.reply(`${translation.username_send_to} 📝`);
 
             ctx.wizard.state.data = {};
             return ctx.wizard.next();
@@ -27,12 +31,12 @@ export default new Scenes.WizardScene(
         if (ctx.message?.text !== undefined) {
 
             ctx.wizard.state.data.username = ctx.message?.text
-            ctx?.reply('قم بكتابة عنوان الرسالة 📝');
+            ctx?.reply(`${translation.title_message_private} 📝`);
             return ctx.wizard.next();
         }
 
         else {
-            ctx?.reply('إدخال خاطئ ❌');
+            ctx?.reply(`${translation.err_wrong_entry} ❌`);
             return ctx.scene.leave();
         }
     },
@@ -41,12 +45,12 @@ export default new Scenes.WizardScene(
         if (ctx.message?.text !== undefined) {
 
             ctx.wizard.state.data.title = ctx.message?.text
-            ctx?.reply('قم بكتابة الرسالة 📝');
+            ctx?.reply(`${translation.content_message_private} 📝`);
             return ctx.wizard.next();
         }
 
         else {
-            ctx?.reply('إدخال خاطئ ❌');
+            ctx?.reply(`${translation.err_wrong_entry} ❌`);
             return ctx.scene.leave();
         }
     },
@@ -68,14 +72,14 @@ export default new Scenes.WizardScene(
             }
 
             else {
-                ctx?.reply('تم إرسال الرسالة ✅');
+                ctx?.reply(`${translation.message_sent} ✅`);
             }
             return ctx.scene.leave();
 
         }
 
         else {
-            ctx?.reply('إدخال خاطئ ❌');
+            ctx?.reply(`${translation.err_wrong_entry} ❌`);
             return ctx.scene.leave();
         }
 
