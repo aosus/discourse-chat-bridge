@@ -82,6 +82,7 @@ git clone https://github.com/aosus/discourse_bridge
 - autoJoin
 - dataPath
 - encryption
+- language
 
 مثال 
 
@@ -119,7 +120,8 @@ nano config.json
 	"accessToken": "Put your accessToken here #npm run accessToken",
 	"autoJoin": true,
 	"dataPath": "storage",
-	"encryption": true
+	"encryption": true,
+	"language": "ar"
 }
 ```
 
