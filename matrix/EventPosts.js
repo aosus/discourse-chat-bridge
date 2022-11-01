@@ -4,6 +4,8 @@ import EventPosts from '../discourse/EventPosts.js';
 import getrRoomMatrix from '../module/getrRoomMatrix.js';
 import sendFile from './sendFile.js';
 import fs from 'fs-extra';
+import Translation from '../module/translation.js';
+
 
 export default async function EventPosts_(client) {
 
@@ -12,6 +14,7 @@ export default async function EventPosts_(client) {
         try {
 
             let config = fs.readJsonSync('./config.json');
+            let translation = await Translation(`${process.env.language || config?.language}`);
             let name = e?.name;
             let username = e?.username;
             let created_at = e?.created_at;
@@ -35,9 +38,9 @@ export default async function EventPosts_(client) {
                     if (item?.categories === category_id) {
                         let preview = data.split('itemprop="image" href="')[1]?.split('">')[0];
                         let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
-                        caption += `<b>التاريخ:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
-                        caption += `<b>رقم الموضوع:</b> ${topic_id}`;
+                        caption += `<b>${translation.writer}:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
+                        caption += `<b>${translation.date}:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
+                        caption += `<b>${translation.number_topic}:</b> ${topic_id}`;
 
                         await sendFile(item?.roomId, preview, 'm.image', client).catch(error => console.log(error));
                         await client.sendMessage(item?.roomId, {
@@ -51,9 +54,9 @@ export default async function EventPosts_(client) {
                     else if (item?.categories === 0) {
                         let preview = data.split('itemprop="image" href="')[1]?.split('">')[0];
                         let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
-                        caption += `<b>التاريخ:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
-                        caption += `<b>رقم الموضوع:</b> ${topic_id}`;
+                        caption += `<b>${translation.writer}:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
+                        caption += `<b>${translation.date}:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
+                        caption += `<b>${translation.number_topic}:</b> ${topic_id}`;
 
                         await sendFile(item?.roomId, preview, 'm.image', client).catch(error => console.log(error));
                         await client.sendMessage(item?.roomId, {
@@ -75,9 +78,9 @@ export default async function EventPosts_(client) {
 
                     if (item?.categories === category_id) {
                         let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
-                        caption += `<b>التاريخ:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
-                        caption += `<b>رقم الموضوع:</b> ${topic_id}`;
+                        caption += `<b>${translation.writer}:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
+                        caption += `<b>${translation.date}:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
+                        caption += `<b>${translation.number_topic}:</b> ${topic_id}`;
                         await client.sendMessage(item?.roomId, {
                             "msgtype": "m.notice",
                             "format": "org.matrix.custom.html",
@@ -88,9 +91,9 @@ export default async function EventPosts_(client) {
 
                     else if (item?.categories === 0) {
                         let caption = `<b><a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> <br><br>`;
-                        caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
-                        caption += `<b>التاريخ:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
-                        caption += `<b>رقم الموضوع:</b> ${topic_id}`;
+                        caption += `<b>${translation.writer}:</b> <a href='${process.env.url || config?.url}/u/${username}'>${name}</a> <br>`;
+                        caption += `<b>${translation.date}:</b> ${moment(created_at).format('iYYYY/iM/iD')}<br>`;
+                        caption += `<b>${translation.number_topic}:</b> ${topic_id}`;
                         await client.sendMessage(item?.roomId, {
                             "msgtype": "m.notice",
                             "format": "org.matrix.custom.html",

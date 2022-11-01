@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import database_telegram from '../module/database_telegram.js';
 import sendComment from '../discourse/sendComment.js';
+import Translation from '../module/translation.js';
 
 export default async function EventText(client) {
 
@@ -17,6 +18,7 @@ export default async function EventText(client) {
         let me = ctx?.botInfo
         let body = ctx?.message.text;
         let config = fs.readJsonSync('./config.json');
+        let translation = await Translation(`${process.env.language || config?.language}`);
 
         await database_telegram(id_from, username_from, name_from, 'from'); // from || user
         await database_telegram(id_chat, username_chat, name_chat, 'chat', message_id); // chat || supergroup or group
@@ -29,9 +31,9 @@ export default async function EventText(client) {
 
             if (fromJson?.access) {
 
-                if (caption?.split('رقم الموضوع: ')[1]) {
+                if (caption?.split(`${translation.number_topic}: `)[1]) {
 
-                    let topic_id = caption?.split('رقم الموضوع: ')[1];
+                    let topic_id = caption?.split(`${translation.number_topic}: `)[1];
                     let seCo = await sendComment(fromJson?.useername_discourse, topic_id, body);
                     if (seCo?.errors) {
                         for (let item of seCo?.errors) {
@@ -42,15 +44,15 @@ export default async function EventText(client) {
 
                         let topic_slug = seCo?.topic_slug
                         let post_number = seCo?.post_number
-                        let message = `<b>تم نشر التعليق ✅ <a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
+                        let message = `<b>${translation.comment_posted} ✅ <a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
                         await ctx?.reply(message, { parse_mode: 'HTML', disable_web_page_preview: true });
 
                     }
                 }
 
-                else if (text?.split('رقم الموضوع: ')[1]) {
+                else if (text?.split(`${translation.number_topic}: `)[1]) {
 
-                    let topic_id = text?.split('رقم الموضوع: ')[1];
+                    let topic_id = text?.split(`${translation.number_topic}: `)[1];
                     let seCo = await sendComment(fromJson?.useername_discourse, topic_id, body);
                     if (seCo?.errors) {
                         for (let item of seCo?.errors) {
@@ -61,7 +63,7 @@ export default async function EventText(client) {
 
                         let topic_slug = seCo?.topic_slug
                         let post_number = seCo?.post_number
-                        let message = `<b>تم نشر التعليق ✅ <a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
+                        let message = `<b>${translation.comment_posted} ✅ <a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
                         await ctx?.reply(message, { parse_mode: 'HTML', disable_web_page_preview: true });
 
                     }
@@ -71,7 +73,7 @@ export default async function EventText(client) {
 
             else {
 
-                let message = 'يجب عليك اولاً ربط حسابك /discourse ❌'
+                let message = `${translation.first_link_your_account} /discourse ❌`
                 ctx?.reply(message);
             }
         }
