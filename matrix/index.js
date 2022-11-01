@@ -11,7 +11,7 @@ import {
 import getMenu from '../module/getMenu.js';
 import start from './start.js';
 import menu from '../module/menu.js';
-import { database_matrix , database_matrix_member} from '../module/database_matrix.js';
+import { database_matrix, database_matrix_member } from '../module/database_matrix.js';
 import EventPosts_ from './EventPosts.js';
 import EventReply from './EventReply.js';
 import * as path from "path";
@@ -66,7 +66,7 @@ export default async function MatrixBot() {
             let roomName = roomfindName?.content?.name;
             let checkRoom = roomName ? 'room' : 'direct';
             let usersAdmin = Object.keys(roomfindAdmin?.content?.users);
-            
+
             await database_matrix({ roomId: roomId, sender: sender, name: roomName ? roomName : name, checkRoom: checkRoom, roomIdOrAlias: roomIdOrAlias });
             await database_matrix_member({ sender: sender, name: name });
             await start(roomId, sender, name, body, event, RichReply, client);
@@ -74,9 +74,9 @@ export default async function MatrixBot() {
             await menu[await getMenu(sender)]?.module?.exec({
                 meId: meId,
                 roomId: roomId,
-                sender: sender, 
-                name: name, 
-                checkRoom: checkRoom, 
+                sender: sender,
+                name: name,
+                checkRoom: checkRoom,
                 roomIdOrAlias: roomIdOrAlias,
                 body: body,
                 replyBody: replyBody,
@@ -103,7 +103,7 @@ export default async function MatrixBot() {
         console.log(error);
 
         if (error?.body[0]?.errcode === 'M_UNKNOWN') {
-            
+
             console.log('Type the command npm run accessToken and then restart the bot');
         }
 

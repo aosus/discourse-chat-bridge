@@ -2,6 +2,10 @@ import { Scenes } from 'telegraf';
 import fs from 'fs-extra';
 import CreatePosts from '../../discourse/CreatePosts.js';
 import getCategories from '../../discourse/getCategories.js';
+import Translation from '../../module/translation.js';
+
+let config = fs.readJsonSync('./config.json');
+let translation = await Translation(`${process.env.language || config?.language}`);
 
 export default new Scenes.WizardScene(
     'CreatePosts',
@@ -10,7 +14,7 @@ export default new Scenes.WizardScene(
         let id_from = ctx?.from?.id;
         let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
         if (fromJson?.access === false) {
-            let message = 'يجب عليك اولاً ربط حسابك /discourse ❌'
+            let message = `${translation.first_link_your_account} /discourse ❌`
             ctx?.reply(message);
             return ctx.scene.leave();
         }
@@ -18,11 +22,11 @@ export default new Scenes.WizardScene(
         else {
 
             let Categories = await getCategories();
-            let message = '<b>قم بإرسال رقم الفئة ⬇️</b> \n\n'
+            let message = `<b>${translation.send_category_id} ⬇️</b> \n\n`
 
             for (let item of Categories) {
                 message += `▪ ${item?.name}\n`
-                message += `▪ المعرف: ${item?.id}\n\n`
+                message += `▪ ${translation.id}: ${item?.id}\n\n`
             }
 
             await ctx.reply(message, { parse_mode: 'HTML' });
@@ -36,12 +40,12 @@ export default new Scenes.WizardScene(
         if (ctx.message?.text !== undefined && !isNaN(ctx?.message?.text)) {
 
             ctx.wizard.state.data.category = Number(ctx.message?.text);
-            ctx?.reply('قم بكتابة عنوان الموضوع 📝')
+            ctx?.reply(`${translation.topic_title} 📝`)
             return ctx.wizard.next();
         }
 
         else {
-            ctx?.reply('إدخال خاطئ ❌');
+            ctx?.reply(`${translation.err_wrong_entry} ❌`);
             return ctx.scene.leave();
         }
     },
@@ -50,13 +54,13 @@ export default new Scenes.WizardScene(
         if (ctx.message?.text !== undefined) {
 
             ctx.wizard.state.data.title = ctx.message?.text;
-            ctx?.reply('قم بكتابة محتوى الموضوع 📝')
+            ctx?.reply(`${translation.topic_content} 📝`)
             return ctx.wizard.next();
 
         }
 
         else {
-            ctx?.reply('إدخال خاطئ ❌');
+            ctx?.reply(`${translation.err_wrong_entry} ❌`);
             return ctx.scene.leave();
         }
 
@@ -65,7 +69,6 @@ export default new Scenes.WizardScene(
 
         if (ctx.message?.text !== undefined) {
 
-            let config = fs.readJsonSync('./config.json');
             let url = process.env.url || config?.url
             let id_from = ctx?.from?.id;
             let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
@@ -92,7 +95,7 @@ export default new Scenes.WizardScene(
         }
 
         else {
-            ctx?.reply('إدخال خاطئ ❌');
+            ctx?.reply(`${translation.err_wrong_entry} ❌`);
             return ctx.scene.leave();
         }
 

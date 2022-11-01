@@ -1,3 +1,4 @@
+import fs from 'fs-extra';
 import main from '../matrix/menu/main.js';
 import CreatePosts_1 from '../matrix/menu/CreatePosts/CreatePosts_1.js';
 import CreatePosts_2 from '../matrix/menu/CreatePosts/CreatePosts_2.js';
@@ -10,54 +11,58 @@ import sendMessagePrivate_2 from '../matrix/menu/sendMessagePrivate/sendMessageP
 import sendMessagePrivate_3 from '../matrix/menu/sendMessagePrivate/sendMessagePrivate_3.js';
 import discourse_1 from '../matrix/menu/discourse/discourse_1.js';
 import discourse_2 from '../matrix/menu/discourse/discourse_2.js';
+import Translation from './translation.js';
+
+let config = fs.readJsonSync('./config.json');
+let translation = await Translation(`${process.env.language || config?.language}`);
 
 export default {
     main: {
-        name: 'القائمة الرئيسية',
+        name: `${translation.main_menu}`,
         module: main
     },
     CreatePosts_1: {
-        name: 'كتابة موضوع جديد 📝 #1',
+        name: `${translation.write_new_topic} 📝 #1`,
         module: CreatePosts_1
     },
     CreatePosts_2: {
-        name: 'كتابة موضوع جديد 📝 #2',
+        name: `${translation.write_new_topic} 📝 #2`,
         module: CreatePosts_2
     },
     CreatePosts_3: {
-        name: 'كتابة موضوع جديد 📝 #3',
+        name: `${translation.write_new_topic} 📝 #3`,
         module: CreatePosts_3
     },
     activation: {
-        name: 'تفعيل البوت ✅',
+        name: `${translation.activate_the_bot}✅`,
         module: activation
     },
     sendComment_1: {
-        name: 'كتابة تعليق جديد 💬 #1',
+        name: `${translation.write_new_comment} 💬 #1`,
         module: sendComment_1
     },
     sendComment_2: {
-        name: 'كتابة تعليق جديد 💬 #2',
+        name: `${translation.write_new_comment} 💬 #2`,
         module: sendComment_2
     },
     sendMessagePrivate_1: {
-        name: 'إرسال رسالة خاصة 🔒 #1',
+        name: `${translation.send_message_private} 🔒 #1`,
         module: sendMessagePrivate_1
     },
     sendMessagePrivate_2: {
-        name: 'إرسال رسالة خاصة 🔒 #2',
+        name: `${translation.send_message_private} 🔒 #2`,
         module: sendMessagePrivate_2
     },
     sendMessagePrivate_3: {
-        name: 'إرسال رسالة خاصة 🔒 #3',
+        name: `${translation.send_message_private} 🔒 #3`,
         module: sendMessagePrivate_3
     },
     discourse_1: {
-        name: 'ربط الحساب على منصة discourse ✅ #1',
+        name: `${translation.first_link_your_account} discourse✅ #1`,
         module: discourse_1
     },
     discourse_2: {
-        name: 'ربط الحساب على منصة discourse ✅ #2',
+        name: `${translation.first_link_your_account} discourse ✅ #2`,
         module: discourse_2
     }
 }

@@ -5,6 +5,7 @@ import sendFile from '../sendFile.js';
 import get_latest_posts from '../../discourse/get_latest_posts.js';
 import getCategories from '../../discourse/getCategories.js';
 import { database_matrix_member } from '../../module/database_matrix.js';
+import Translation from '../../module/translation.js';
 moment.locale('en-EN');
 
 export default {
@@ -13,6 +14,7 @@ export default {
         let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
         let roomJson = fs.readJsonSync(`./database/matrix/${checkRoom}/${roomId}.json`);
         let config = fs.readJsonSync('./config.json');
+        let translation = await Translation(`${process.env.language || config?.language}`);
 
         if (body === '1' || body === '١' || body === 'get_latest_posts') {
 
@@ -24,9 +26,9 @@ export default {
 
                 let preview = data.split('itemprop="image" href="')[1]?.split('">')[0];
                 let caption = `<b><a href='${process.env.url || config?.url}/t/${get?.topic_slug}/${get?.topic_id}'>${get?.topic_title}</a></b> <br><br>`;
-                caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${get?.username}'>${get?.name}</a> <br>`;
-                caption += `<b>التاريخ:</b> ${moment(get?.created_at).format('iYYYY/iM/iD')}<br>`;
-                caption += `<b>رقم الموضوع:</b> ${get?.topic_id}`;
+                caption += `<b>${translation.writer}:</b> <a href='${process.env.url || config?.url}/u/${get?.username}'>${get?.name}</a> <br>`;
+                caption += `<b>${translation.date}:</b> ${moment(get?.created_at).format('iYYYY/iM/iD')}<br>`;
+                caption += `<b>${translation.number_topic}:</b> ${get?.topic_id}`;
                 let reply = RichReply.createFor(roomId, event, caption, caption);
 
                 await sendFile(roomId, preview, 'm.image', client).catch(error => console.log(error));
@@ -36,9 +38,9 @@ export default {
 
             else {
                 let caption = `<b><a href='${process.env.url || config?.url}/t/${get?.topic_slug}/${get?.topic_id}'>${get?.topic_title}</a></b> <br><br>`;
-                caption += `<b>الكاتب:</b> <a href='${process.env.url || config?.url}/u/${get?.username}'>${get?.name}</a> <br>`;
-                caption += `<b>التاريخ:</b> ${moment(get?.created_at).format('iYYYY/iM/iD')}<br>`;
-                caption += `<b>رقم الموضوع:</b> ${get?.topic_id}`;
+                caption += `<b>${translation.writer}:</b> <a href='${process.env.url || config?.url}/u/${get?.username}'>${get?.name}</a> <br>`;
+                caption += `<b>${translation.date}:</b> ${moment(get?.created_at).format('iYYYY/iM/iD')}<br>`;
+                caption += `<b>${translation.number_topic}:</b> ${get?.topic_id}`;
                 let reply = RichReply.createFor(roomId, event, caption, caption);
                 await client.sendMessage(roomId, reply).catch(error => console.log(error));
             }
@@ -50,7 +52,7 @@ export default {
             let Categories = await getCategories().catch(error => console.log(error));
             let url = process.env.url || config?.url;
             let title = process.env.title_discourse || config?.title_discourse;
-            let message = `فئات ${title} ⬇️<br><br>`
+            let message = `${translation.categories} ${title} ⬇️<br><br>`
 
             for (let item of Categories) {
                 let id = item?.id;
@@ -58,7 +60,7 @@ export default {
                 let topics_all_time = item?.topics_all_time;
                 let slug = item?.slug
                 message += `<b><a href='${url}/c/${slug}/${id}'>${name}</a></b> <br>`
-                message += `عدد المواضيع المنشورة: ${topics_all_time}<br>`
+                message += `${translation.number_of_topics_posted}: ${topics_all_time}<br>`
             }
 
             let reply = RichReply.createFor(roomId, event, message, message);
@@ -72,18 +74,18 @@ export default {
 
                 await database_matrix_member({ sender: sender, menu: 'CreatePosts_1' }).catch(error => console.log(error));
                 let Categories = await getCategories().catch(error => console.log(error));
-                let message = '<b>قم بإرسال رقم الفئة ⬇️</b> <br><br>'
+                let message = `<b>${translation.send_category_id} ⬇️</b> <br><br>`
 
                 for (let item of Categories) {
                     message += `▪ ${item?.name}<br>`
-                    message += `▪ المعرف: ${item?.id}<br><br>`
+                    message += `▪ ${translation.id}: ${item?.id}<br><br>`
                 }
                 let reply = RichReply.createFor(roomId, event, message, message);
                 await client.sendMessage(roomId, reply).catch(error => console.log(error));
             }
 
             else {
-                let message = 'يجب عليك اولاً ربط حسابك بإرسال كلمة discourse او رقم 6 ❌'
+                let message = `${translation.first_link_your_account_matrix} ❌`
                 let reply = RichReply.createFor(roomId, event, message, message);
                 await client.sendMessage(roomId, reply).catch(error => console.log(error));
             }
@@ -95,13 +97,13 @@ export default {
             if (memberJson?.access) {
 
                 await database_matrix_member({ sender: sender, menu: 'sendComment_1' }).catch(error => console.log(error));
-                let message = 'قم بإرسال رقم او رابط الموضوع 🌐'
+                let message = `${translation.send_id_or_url_topic} 🌐`
                 let reply = RichReply.createFor(roomId, event, message, message);
                 await client.sendMessage(roomId, reply).catch(error => console.log(error));
             }
 
             else {
-                let message = 'يجب عليك اولاً ربط حسابك بإرسال كلمة discourse او رقم 6 ❌'
+                let message = `${translation.first_link_your_account_matrix} ❌`
                 let reply = RichReply.createFor(roomId, event, message, message);
                 await client.sendMessage(roomId, reply).catch(error => console.log(error));
             }
@@ -113,13 +115,13 @@ export default {
             if (memberJson?.access) {
 
                 await database_matrix_member({ sender: sender, menu: 'sendMessagePrivate_1' }).catch(error => console.log(error));
-                let message = 'قم بكتابة إسم المستخدم المرسل اليه 📝'
+                let message = `${translation.username_send_to} 📝`
                 let reply = RichReply.createFor(roomId, event, message, message);
                 await client.sendMessage(roomId, reply).catch(error => console.log(error));
             }
 
             else {
-                let message = 'يجب عليك اولاً ربط حسابك بإرسال كلمة discourse او رقم 6 ❌'
+                let message = `${translation.first_link_your_account_matrix} ❌`
                 let reply = RichReply.createFor(roomId, event, message, message);
                 await client.sendMessage(roomId, reply).catch(error => console.log(error));
             }
@@ -132,7 +134,7 @@ export default {
 
                 if (memberJson?.access) {
 
-                    let message = 'الحساب مربوط بمنصة discourse بالفعل ⁉️'
+                    let message = `${translation.err_linked_to_discourse} ⁉️`
                     let reply = RichReply.createFor(roomId, event, message, message);
                     await client.sendMessage(roomId, reply).catch(error => console.log(error));
                 }
@@ -140,7 +142,7 @@ export default {
                 else {
 
                     await database_matrix_member({ sender: sender, menu: 'discourse_1' }).catch(error => console.log(error));
-                    let message = 'قم بكتابة إسم المستخدم الخاص بك على منصة discourse 📝<br><br>الإسم بدون علامة @'
+                    let message = `${translation.enter_your_username_discourse} 📝<br><br>${translation.sign_}`
                     let reply = RichReply.createFor(roomId, event, message, message);
                     await client.sendMessage(roomId, reply).catch(error => console.log(error));
 
@@ -149,7 +151,7 @@ export default {
             }
 
             else {
-                let message = 'قم بالدخول على الخاص لربط حسابك ⚠️'
+                let message = `${translation.send_me_private_message_to_link_your_account} ⚠️`
                 let reply = RichReply.createFor(roomId, event, message, message);
                 await client.sendMessage(roomId, reply).catch(error => console.log(error));
             }
@@ -161,7 +163,7 @@ export default {
             if (checkRoom === 'room') {
                 if (roomJson?.evenPost) {
 
-                    let message = 'البوت مفعل في المحادثة بالفعل ⁉️';
+                    let message = `${translation.err_active_in_the_chat} ⁉️`;
                     let reply = RichReply.createFor(roomId, event, message, message);
                     await client.sendMessage(roomId, reply).catch(error => console.log(error));
 
@@ -173,14 +175,14 @@ export default {
 
                         await getCategories().then(async e => {
 
-                            let message = '<b>قم بإرسال معرف الفئة لتلقي آخر المواضيع</b> <br><br>'
+                            let message = `<b>${translation.category_id}</b> <br><br>`
                             for (let item of e) {
 
                                 message += `▪ ${item?.name}<br>`
-                                message += `▪ المعرف: ${item?.id}<br><br>`
+                                message += `▪ ${translation.id}: ${item?.id}<br><br>`
 
                             }
-                            message += 'لتلقي المواضيع من جميع الفئات ارسل رقم 0'
+                            message += `${translation.category_id_all}`
                             let reply = RichReply.createFor(roomId, event, message, message);
                             await client.sendMessage(roomId, reply).catch(error => console.log(error));
                             await database_matrix_member({ sender: sender, menu: 'activation' }).catch(error => console.log(error));
@@ -190,7 +192,7 @@ export default {
 
                     else {
 
-                        let message = 'يجب ان تكون مشرف لتفعيل البوت ❌';
+                        let message = `${translation.admin_activate} ❌`;
                         let reply = RichReply.createFor(roomId, event, message, message);
                         await client.sendMessage(roomId, reply).catch(error => console.log(error));
                     }
@@ -202,7 +204,7 @@ export default {
 
                 if (roomJson?.evenPost) {
 
-                    let message = 'البوت مفعل في المحادثة بالفعل ⁉️';
+                    let message = `${translation.err_active_in_the_chat} ⁉️`;
                     let reply = RichReply.createFor(roomId, event, message, message);
                     await client.sendMessage(roomId, reply).catch(error => console.log(error));
 
@@ -210,7 +212,7 @@ export default {
 
                 else {
 
-                    let message = 'تم تفعيل البوت ✅';
+                    let message = `${translation.active_bot} ✅`;
                     let reply = RichReply.createFor(roomId, event, message, message);
                     roomJson.evenPost = true;
                     roomJson.categories = 0;
