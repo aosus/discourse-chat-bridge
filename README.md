@@ -1,4 +1,4 @@
-![Discourse_Bridge](/README/Discourse_Bridge.png)
+![discourse-chat-bridge](/README/Discourse_Bridge.png)
 
 
 # Discourse-chat-bridge
@@ -25,14 +25,14 @@
 
 |  الأمر  | صورة|
 |:--------------|-----------------:|
-|start | ![Discourse_Bridge](/README/16.jpg) |
-|get_latest_posts | ![Discourse_Bridge](/README/6.jpg) |
-|getCategories | ![Discourse_Bridge](/README/3.jpg) |
-|CreatePosts | ![Discourse_Bridge](/README/2.jpg) |
-|sendComment | ![Discourse_Bridge](/README/5.jpg) |
-|sendMessagePrivate | ![Discourse_Bridge](/README/4.jpg) |
-|discourse | ![Discourse_Bridge](/README/1.jpg) |
-|activation | ![Discourse_Bridge](/README/7.jpg) |
+|start | ![discourse-chat-bridge](/README/16.jpg) |
+|get_latest_posts | ![discourse-chat-bridge](/README/6.jpg) |
+|getCategories | ![discourse-chat-bridge](/README/3.jpg) |
+|CreatePosts | ![discourse-chat-bridge](/README/2.jpg) |
+|sendComment | ![discourse-chat-bridge](/README/5.jpg) |
+|sendMessagePrivate | ![discourse-chat-bridge](/README/4.jpg) |
+|discourse | ![discourse-chat-bridge](/README/1.jpg) |
+|activation | ![discourse-chat-bridge](/README/7.jpg) |
 
 <br>
 
@@ -66,7 +66,7 @@
 بعد الإنتهاء من إنشاء مفتاح api قم بإستنساخ المستودع 
 
 ```bash
-git clone https://github.com/aosus/discourse_bridge
+git clone https://github.com/aosus/discourse-chat-bridge
 
 ```
 آلان قم بإضافة متغيرات البيئة
@@ -82,6 +82,7 @@ git clone https://github.com/aosus/discourse_bridge
 - autoJoin
 - dataPath
 - encryption
+- language
 
 مثال 
 
@@ -102,24 +103,25 @@ setx url="https://discourse.aosus.org"
 
 
 ```bash
-cd discourse_bridge 
+cd discourse-chat-bridge 
 nano config.json
 ```
 
 ```json
 {
-	"url": "https://discourse.aosus.org",
-	"title_discourse": "مجتمع أسس",
-	"token_discourse": "fbb8215419b92f4b34e696af92fd1172aa5bf8d16ce5e79e4f8d6d0dddf049b1",
+	"url": "https://$DISCOURSE_DOMAIN",
+	"title_discourse": "discourse forum name",
+	"token_discourse": "discourse tokin",
 	"useername_discourse": "system",
-	"token_telegram": "5492211333:AAHF6uVuIv8wGkIRtmzFT8hHyabuc4mZb_U",
+	"token_telegram": "telegram token",
 	"username_matrix": "Username to your Matrix account #aosus",
 	"password_matrix": "Password to your Matrix account #*****",
 	"homeserverUrl": "https://matrix.org",
 	"accessToken": "Put your accessToken here #npm run accessToken",
 	"autoJoin": true,
 	"dataPath": "storage",
-	"encryption": true
+	"encryption": true,
+	"language": "ar"
 }
 ```
 

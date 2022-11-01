@@ -10,5 +10,6 @@
 	"accessToken": "Put your accessToken here #npm run accessToken",
 	"autoJoin": true,
 	"dataPath": "storage",
-	"encryption": true
+	"encryption": true,
+	"language": "ar"
 }
