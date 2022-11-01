@@ -1,7 +1,7 @@
 ![Discourse_Bridge](/README/Discourse_Bridge.png)
 
 
-# Discourse_Bridge
+# Discourse-chat-bridge
 <br>
 جسر بين منصة Discourse وبرامج التواصل .
 

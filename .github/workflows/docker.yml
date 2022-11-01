@@ -64,8 +64,8 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            aosus/discourse-bridge:latest
-            ghcr.io/aosus/discourse-bridge:latest
+            aosus/discourse-chat-bridge:latest
+            ghcr.io/aosus/discourse-chat-bridge:latest
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -77,8 +77,8 @@ jobs:
           platforms: linux/amd64, linux/arm64/v8
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            aosus/discourse-bridge:latest
-            ghcr.io/aosus/discourse-bridge:latest
+            aosus/discourse-chat-bridge:latest
+            ghcr.io/aosus/discourse-chat-bridge:latest
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

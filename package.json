@@ -1,5 +1,5 @@
 {
-  "name": "discourse-bridge",
+  "name": "discourse-chat-bridge",
   "description": "bridge between discourse and social media programs",
   "version": "1.0.4",
   "main": "index.js",
