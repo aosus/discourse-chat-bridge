@@ -23,6 +23,11 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
+    paths-ignore:
+      - 'docs/**'
+      - '.github/**'
+      - README.md
+
   schedule:
     - cron: '22 0 * * 5'
 
