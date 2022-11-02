@@ -61,7 +61,7 @@ jobs:
         projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
         directory: docs/generated
         gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.head.ref }}
+        branch: ${{ github.ref.name }}
 
     - name: Cache pip files
       uses: actions/cache@v3.0.11
