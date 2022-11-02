@@ -54,6 +54,18 @@ jobs:
       run: cp docs/_headers docs/generated/_headers
 
     - name: Publish to Cloudflare Pages
+      if: github.event_name != 'pull_request'
+      uses: cloudflare/pages-action@1
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ID }}
+        projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+        directory: docs/generated
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
+
+    - name: Publish preview to Cloudflare Pages
+      if: github.event_name == 'pull_request'
       uses: cloudflare/pages-action@1
       with:
         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
