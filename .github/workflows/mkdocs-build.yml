@@ -1,0 +1,71 @@
+name: dev-Build
+
+on:
+  workflow_dispatch:
+  push:
+    paths: 
+      - 'docs/**'
+      - '.github/workflows/mkdocs-build.yml'
+      - 'docs/requirements.txt'
+    branches: [ v2-dev ]
+  pull_request:
+    branches: [ v2-dev ]
+  pull_request_review:
+    types: [edited, dismissed]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout 🛎️
+      uses: actions/checkout@v3 
+      with:
+        persist-credentials: false
+        fetch-depth: '0'
+
+    # setup python
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10.*
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools
+        python -m pip install -U pip wheel
+        python -m pip install -r docs/requirements.txt
+        pip show mkdocs-material
+
+    - name: mkdocs build EN
+      run: mkdocs build -f docs/mkdocs.yml --clean --verbose -d site
+
+    - name: mkdocs build AR
+      run: mkdocs build -f docs/mkdocs-ar.yml --clean --verbose
+
+    - name: Include _headers file
+      run: cp _headers generated/_headers
+
+    - name: Publish to Cloudflare Pages
+      uses: cloudflare/pages-action@1
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ID }}
+        projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+        directory: generated
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ GITHUB_HEAD_REF }}
+
+    - name: Cache pip files
+      uses: actions/cache@v3.0.9
+      env:
+        cache-name: pip-reg
+      with:
+        path: $HOME/.cache/pip
+        key: pip-reg
+
+    - name: Cache Mkdocs files
+      uses: actions/cache@v3
+      with:
+        key: ${{ github.ref }}
+        path: .cache
