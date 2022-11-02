@@ -5,7 +5,6 @@ repo_url: https://github.com/aosus/discourse-chat-bridge
 edit_uri: https://github.com/aosus/discourse-chat-bridge/docs/ar
 site_description: 
 docs_dir: ./ar
-site_dir: '../generated/ar'
 
 plugins:
   - autolinks

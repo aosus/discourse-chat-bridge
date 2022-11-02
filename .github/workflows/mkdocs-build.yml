@@ -10,6 +10,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+    paths: 
+      - 'docs/**'
+      - '.github/workflows/mkdocs-build.yml'
+      - 'docs/requirements.txt'
   pull_request_review:
     types: [edited, dismissed]
 
@@ -38,13 +42,13 @@ jobs:
         pip show mkdocs-material
 
     - name: mkdocs build EN
-      run: mkdocs build -f docs/mkdocs.yml --clean --verbose -d site
+      run: mkdocs build -f docs/mkdocs.yml --clean --verbose -d generated
 
     - name: mkdocs build AR
-      run: mkdocs build -f docs/mkdocs-ar.yml --clean --verbose
+      run: mkdocs build -f docs/mkdocs-ar.yml --clean --verbose -d generated/ar
 
     - name: Include _headers file
-      run: cp _headers generated/_headers
+      run: cp docs/_headers generated/_headers
 
     - name: Publish to Cloudflare Pages
       uses: cloudflare/pages-action@1
