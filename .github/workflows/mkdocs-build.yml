@@ -48,7 +48,7 @@ jobs:
       run: mkdocs build -f docs/mkdocs-ar.yml --clean --verbose -d generated/ar
 
     - name: Include _headers file
-      run: cp docs/_headers generated/_headers
+      run: cp docs/_headers docs/generated/_headers
 
     - name: Publish to Cloudflare Pages
       uses: cloudflare/pages-action@1
@@ -56,7 +56,7 @@ jobs:
         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         accountId: ${{ secrets.CLOUDFLARE_ID }}
         projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-        directory: generated
+        directory: docs/generated
         gitHubToken: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.head.ref }}
 
