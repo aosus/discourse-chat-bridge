@@ -16,7 +16,7 @@
     "matrix-bot-sdk": "^0.6.2",
     "moment-hijri": "^2.1.2",
     "node-fetch": "^3.3.0",
-    "telegraf": "^4.8.6"
+    "telegraf": "^4.11.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
