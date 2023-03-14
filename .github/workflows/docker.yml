@@ -51,16 +51,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Login against a Docker registry except on PR
-      # https://github.com/docker/login-action
-      - name: Log into registry docker.io
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
-        with:
-          registry: docker.io
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
@@ -68,7 +58,6 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            aosus/discourse-chat-bridge:latest
             ghcr.io/aosus/discourse-chat-bridge:latest
 
       # Build and push Docker image with Buildx (don't push on PR)
@@ -81,7 +70,6 @@ jobs:
           platforms: linux/amd64, linux/arm64/v8
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            aosus/discourse-chat-bridge:latest
             ghcr.io/aosus/discourse-chat-bridge:latest
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
