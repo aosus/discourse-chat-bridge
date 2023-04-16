@@ -1,5 +1,5 @@
 import {
-    matrix_autoJoinRoomsMixin,
+    matrix_autojoinRoomsMixin,
     LogLevel,
     LogService,
     MatrixClient,
@@ -32,9 +32,9 @@ export default async function MatrixBot() {
         }
         // Now create the client
         let client = new MatrixClient(process.env.MATRIX_HOMESERVER_URL || config?.matrix_homeserver_url, process.env.MATRIX_ACCESS_TOKEN || config?.matrix_access_token, storage, cryptoStore);
-        // Setup the matrix_autoJoin mixin (if enabled)
-        if (process.env.MATRIX_ACCESS_TOKEN === "true" || config?.matrix_autoJoin) {
-            matrix_autoJoinRoomsMixin.setupOnClient(client);
+        // Setup the matrix_autojoin mixin (if enabled)
+        if (process.env.MATRIX_ACCESS_TOKEN === "true" || config?.matrix_autojoin) {
+            matrix_autojoinRoomsMixin.setupOnClient(client);
         }
 
         client.addPreprocessor(new RichRepliesPreprocessor(false));

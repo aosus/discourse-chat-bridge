@@ -8,7 +8,7 @@
 	"matrix_password": "Password to your Matrix account #*****",
 	"matrix_homeserver_url": "https://matrix.org",
 	"matrix_access_token": "Put your matrix_access_token here", # you can generate it using "npm run generate_matrix_token"
-	"matrix_autoJoin": true,
+	"matrix_autojoin": true,
 	"dataPath": "storage",
 	"matrix_encryption": true,
 	"language": "ar"

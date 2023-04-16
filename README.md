@@ -79,7 +79,7 @@ git clone https://github.com/aosus/discourse-chat-bridge
 - matrix_password
 - matrix_homeserver_url
 - matrix_access_token
-- matrix_autoJoin
+- matrix_autojoin
 - dataPath
 - matrix_encryption
 - language
@@ -118,7 +118,7 @@ nano config.json
 	"matrix_password": "Password to your Matrix account #*****",
 	"matrix_homeserver_url": "https://matrix.org",
 	"matrix_access_token": "Put your matrix_access_token here #npm run generate_matrix_token",
-	"matrix_autoJoin": true,
+	"matrix_autojoin": true,
 	"dataPath": "storage",
 	"matrix_encryption": true,
 	"language": "ar"
