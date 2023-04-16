@@ -12,7 +12,7 @@ export default async function telegram() {
 
         let config = fs.readJsonSync('./config.json');
         let options = { channelMode: true, polling: true };
-        let client = new Telegraf(process.env.token_telegram || config?.token_telegram, options);
+        let client = new Telegraf(process.env.telegram_token || config?.telegram_token, options);
         let stage = new Scenes.Stage(WizardScene);
         client.use(session())
         client.use(stage.middleware());

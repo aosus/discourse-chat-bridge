@@ -36,12 +36,12 @@ export default new Scenes.WizardScene(
         if (ctx.message?.text !== undefined) {
             let id_from = ctx?.from?.id;
             let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
-            fromJson.useername_discourse = ctx.message?.text;
+            fromJson.discourse_username = ctx.message?.text;
             fs.writeJsonSync(`./database/telegram/from/${id_from}.json`, fromJson, { spaces: '\t' });
             let title = `${translation.verification_code}`
             let raw = `${translation.verification_code_for} ${fromJson?.username ? '@' + fromJson?.username : fromJson?.name} \n\n`;
             raw += fromJson?.verification_code;
-            let Private = await sendMessagePrivate(process.env.useername_discourse || config?.useername_discourse, title, raw, ctx.message?.text);
+            let Private = await sendMessagePrivate(process.env.discourse_username || config?.discourse_username, title, raw, ctx.message?.text);
             if (Private?.errors) {
                 for (let item of Private?.errors) {
                     ctx?.reply(item);

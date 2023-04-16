@@ -73,7 +73,7 @@ export default new Scenes.WizardScene(
             let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
             let raw = ctx.message?.text;
             let topic_id = ctx.wizard.state.data.topic_id
-            let seCo = await sendComment(fromJson?.useername_discourse, topic_id, raw);
+            let seCo = await sendComment(fromJson?.discourse_username, topic_id, raw);
 
             if (seCo?.errors) {
                 for (let item of seCo?.errors) {

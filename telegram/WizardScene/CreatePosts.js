@@ -75,7 +75,7 @@ export default new Scenes.WizardScene(
             let category = ctx.wizard.state.data.category;
             let title = ctx.wizard.state.data.title;
             let raw = ctx.message?.text;
-            let crPo = await CreatePosts(fromJson?.useername_discourse, title, raw, category);
+            let crPo = await CreatePosts(fromJson?.discourse_username, title, raw, category);
 
             if (crPo?.errors) {
                 for (let item of crPo?.errors) {

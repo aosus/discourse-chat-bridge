@@ -34,7 +34,7 @@ export default async function EventText(client) {
                 if (caption?.split(`${translation.number_topic}: `)[1]) {
 
                     let topic_id = caption?.split(`${translation.number_topic}: `)[1];
-                    let seCo = await sendComment(fromJson?.useername_discourse, topic_id, body);
+                    let seCo = await sendComment(fromJson?.discourse_username, topic_id, body);
                     if (seCo?.errors) {
                         for (let item of seCo?.errors) {
                             ctx?.reply(item);
@@ -53,7 +53,7 @@ export default async function EventText(client) {
                 else if (text?.split(`${translation.number_topic}: `)[1]) {
 
                     let topic_id = text?.split(`${translation.number_topic}: `)[1];
-                    let seCo = await sendComment(fromJson?.useername_discourse, topic_id, body);
+                    let seCo = await sendComment(fromJson?.discourse_username, topic_id, body);
                     if (seCo?.errors) {
                         for (let item of seCo?.errors) {
                             ctx?.reply(item);

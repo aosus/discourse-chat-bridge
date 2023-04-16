@@ -72,16 +72,16 @@ git clone https://github.com/aosus/discourse-chat-bridge
 آلان قم بإضافة متغيرات البيئة
 - url
 - discourse_forum_name
-- token_discourse
-- useername_discourse
-- token_telegram
-- username_matrix
-- password_matrix
-- homeserverUrl
-- accessToken
-- autoJoin
+- discourse_token
+- discourse_username
+- telegram_token
+- matrix_username
+- matrix_password
+- matrix_homeserver_url
+- matrix_access_token
+- matrix_autoJoin
 - dataPath
-- encryption
+- matrix_encryption
 - language
 
 مثال 
@@ -111,16 +111,16 @@ nano config.json
 {
 	"url": "https://$DISCOURSE_DOMAIN",
 	"discourse_forum_name": "discourse forum name",
-	"token_discourse": "discourse tokin",
-	"useername_discourse": "system",
-	"token_telegram": "telegram token",
-	"username_matrix": "Username to your Matrix account #aosus",
-	"password_matrix": "Password to your Matrix account #*****",
-	"homeserverUrl": "https://matrix.org",
-	"accessToken": "Put your accessToken here #npm run accessToken",
-	"autoJoin": true,
+	"discourse_token": "discourse tokin",
+	"discourse_username": "system",
+	"telegram_token": "telegram token",
+	"matrix_username": "Username to your Matrix account #aosus",
+	"matrix_password": "Password to your Matrix account #*****",
+	"matrix_homeserver_url": "https://matrix.org",
+	"matrix_access_token": "Put your matrix_access_token here #npm run matrix_access_token",
+	"matrix_autoJoin": true,
 	"dataPath": "storage",
-	"encryption": true,
+	"matrix_encryption": true,
 	"language": "ar"
 }
 ```
@@ -130,11 +130,11 @@ nano config.json
 
 ```bash
 npm i
-npm run accessToken
+npm run matrix_access_token
 npm start
 or
 node index.js
 ```
 
 
-``` ملاحظة / عند كتابة الأمر npm run accessToken سيتم توليد التوكن لـ (Matrix) بشكل تلقائي وحفظه في ملف config.json ```
+``` ملاحظة / عند كتابة الأمر npm run matrix_access_token سيتم توليد التوكن لـ (Matrix) بشكل تلقائي وحفظه في ملف config.json ```

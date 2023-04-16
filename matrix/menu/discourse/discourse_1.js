@@ -15,8 +15,8 @@ export default {
             let title = `${translation.verification_code}`
             let raw = `${translation.verification_code_for} ${memberJson?.sender ? sender : memberJson?.name} <br><br>`;
             raw += memberJson?.verification_code;
-            memberJson.useername_discourse = body;
-            let Private = await sendMessagePrivate(process.env.useername_discourse || config?.useername_discourse, title, raw, body).catch(error => console.log(error));
+            memberJson.discourse_username = body;
+            let Private = await sendMessagePrivate(process.env.discourse_username || config?.discourse_username, title, raw, body).catch(error => console.log(error));
 
             fs.writeJsonSync(`./database/matrix/member/${sender}.json`, memberJson, { spaces: '\t' });
 

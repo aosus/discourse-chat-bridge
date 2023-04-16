@@ -14,7 +14,7 @@ export default async function EventReply(roomId, sender, meId, body, replySender
 
         if (topic_id) {
 
-            let seCo = await sendComment(memberJson?.useername_discourse, topic_id, body).catch(error => console.log(error));
+            let seCo = await sendComment(memberJson?.discourse_username, topic_id, body).catch(error => console.log(error));
 
             if (seCo?.errors) {
 

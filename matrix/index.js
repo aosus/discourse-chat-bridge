@@ -27,14 +27,14 @@ export default async function MatrixBot() {
         let storage = new SimpleFsStorageProvider(path.join(process.env.dataPath || config?.dataPath, "matrix.json"));
         // Prepare a crypto store if we need that
         let cryptoStore;
-        if (process.env.encryption === "true" || config?.encryption) {
+        if (process.env.matrix_encryption === "true" || config?.matrix_encryption) {
             cryptoStore = new RustSdkCryptoStorageProvider(path.join(process.env.dataPath || config?.dataPath, "encrypted"));
         }
         // Now create the client
-        let client = new MatrixClient(process.env.homeserverUrl || config?.homeserverUrl, process.env.accessToken || config?.accessToken, storage, cryptoStore);
-        // Setup the autojoin mixin (if enabled)
-        if (process.env.autoJoin === "true" || config?.autoJoin) {
-            AutojoinRoomsMixin.setupOnClient(client);
+        let client = new MatrixClient(process.env.matrix_homeserver_url || config?.matrix_homeserver_url, process.env.matrix_access_token || config?.matrix_access_token, storage, cryptoStore);
+        // Setup the matrix_autoJoin mixin (if enabled)
+        if (process.env.matrix_autoJoin === "true" || config?.matrix_autoJoin) {
+            matrix_autoJoinRoomsMixin.setupOnClient(client);
         }
 
         client.addPreprocessor(new RichRepliesPreprocessor(false));

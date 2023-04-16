@@ -15,7 +15,7 @@ export default {
             let title = memberJson?.sendMessagePrivate_2
             let raw = body
             let sendTo = memberJson?.sendMessagePrivate_1
-            let sePr = await sendMessagePrivate(memberJson?.useername_discourse, title, raw, sendTo).catch(error => console.log(error));
+            let sePr = await sendMessagePrivate(memberJson?.discourse_username, title, raw, sendTo).catch(error => console.log(error));
 
             if (sePr?.errors) {
 

@@ -1,15 +1,15 @@
 {
 	"url": "https://$DISCOURSE_DOMAIN",
 	"discourse_forum_name": "discourse forum name",
-	"token_discourse": "discourse tokin",
-	"useername_discourse": "system",
-	"token_telegram": "telegram token",
-	"username_matrix": "Username to your Matrix account #aosus",
-	"password_matrix": "Password to your Matrix account #*****",
-	"homeserverUrl": "https://matrix.org",
-	"accessToken": "Put your accessToken here #npm run accessToken",
-	"autoJoin": true,
+	"discourse_token": "discourse tokin",
+	"discourse_username": "system",
+	"telegram_token": "telegram token",
+	"matrix_username": "Username to your Matrix account #aosus",
+	"matrix_password": "Password to your Matrix account #*****",
+	"matrix_homeserver_url": "https://matrix.org",
+	"matrix_access_token": "Put your matrix_access_token here", # you can generate it using "npm run generate_matrix_token"
+	"matrix_autoJoin": true,
 	"dataPath": "storage",
-	"encryption": true,
+	"matrix_encryption": true,
 	"language": "ar"
 }

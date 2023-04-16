@@ -16,7 +16,7 @@ export default async function CreatePosts(Api_Username, title, raw, category) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Api-Key': process.env.token_discourse || config?.token_discourse,
+                'Api-Key': process.env.discourse_token || config?.discourse_token,
                 'Api-Username': Api_Username
             },
             body: JSON.stringify(body),

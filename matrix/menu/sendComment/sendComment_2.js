@@ -14,7 +14,7 @@ export default {
 
             let raw = body;
             let topic_id = memberJson?.sendComment_1
-            let seCo = await sendComment(memberJson?.useername_discourse, topic_id, raw);
+            let seCo = await sendComment(memberJson?.discourse_username, topic_id, raw);
 
             if (seCo?.errors) {
                 for (let item of seCo?.errors) {

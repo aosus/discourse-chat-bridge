@@ -17,7 +17,7 @@ export default async function sendMessagePrivate(Api_Username, title, raw, sendT
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Api-Key': process.env.token_discourse || config?.token_discourse,
+                'Api-Key': process.env.discourse_token || config?.discourse_token,
                 'Api-Username': Api_Username
             },
             body: JSON.stringify(body),

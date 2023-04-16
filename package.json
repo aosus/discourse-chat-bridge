@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "accessToken": "node ./matrix/accessToken.js"
+    "generate_matrix_token": "node ./matrix/generate_matrix_token.js"
   },
   "author": "aosus",
   "license": "agpl-3.0",

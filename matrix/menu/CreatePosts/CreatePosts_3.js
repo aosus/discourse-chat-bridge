@@ -16,7 +16,7 @@ export default {
             let category = memberJson?.CreatePosts_1;
             let title = memberJson?.CreatePosts_2;
             let raw = body;
-            let crPo = await CreatePosts(memberJson?.useername_discourse, title, raw, category).catch(error => console.log(error));
+            let crPo = await CreatePosts(memberJson?.discourse_username, title, raw, category).catch(error => console.log(error));
 
             if (crPo?.errors) {
                 for (let item of crPo?.errors) {
