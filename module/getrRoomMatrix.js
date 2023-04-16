@@ -6,8 +6,8 @@ import fs from 'fs-extra';
 
 export default async function getrRoomMatrix(type) {
 
-    let room = fs.readdirSync('./database/matrix/room');
-    let direct = fs.readdirSync('./database/matrix/direct');
+    let room = fs.readdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/matrix/room"));
+    let direct = fs.readdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/matrix/direct"));
     let arrayRoomId = []
     let arrayDirectId = []
     let arrayAllId = []

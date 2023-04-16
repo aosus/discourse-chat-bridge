@@ -2,8 +2,8 @@ import fs from 'fs-extra';
 
 export default async function getUserTelegram() {
 
-    let chat = fs.readdirSync('./database/telegram/chat');
-    let from = fs.readdirSync('./database/telegram/from');
+    let chat = fs.readdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/telegram/chat"));
+    let from = fs.readdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/telegram/from"));
     let array = []
 
     for (let item of chat) {
