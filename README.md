@@ -71,7 +71,7 @@ git clone https://github.com/aosus/discourse-chat-bridge
 ```
 آلان قم بإضافة متغيرات البيئة
 - url
-- title_discourse
+- discourse_forum_name
 - token_discourse
 - useername_discourse
 - token_telegram
@@ -110,7 +110,7 @@ nano config.json
 ```json
 {
 	"url": "https://$DISCOURSE_DOMAIN",
-	"title_discourse": "discourse forum name",
+	"discourse_forum_name": "discourse forum name",
 	"token_discourse": "discourse tokin",
 	"useername_discourse": "system",
 	"token_telegram": "telegram token",

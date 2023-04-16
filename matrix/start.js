@@ -10,14 +10,14 @@ export default async function start(roomId, sender, name, body, event, RichReply
 
         let config = fs.readJsonSync('./config.json');
         let translation = await Translation(`${process.env.language || config?.language}`);
-        let message = `<b>${translation.welcome} ${name} ${translation.in_the_bridge} ${process.env.title_discourse || config?.title_discourse} 👋</b> <br>`
+        let message = `<b>${translation.welcome} ${name} ${translation.in_the_bridge} ${process.env.discourse_forum_name || config?.discourse_forum_name} 👋</b> <br>`
         message += `${translation.send_number_or_name_service} <br><br>`
         message += `▪ ${translation.view_last_topic} 📄 <br>1- get_latest_posts <br><br>`
         message += `▪ ${translation.view_categories} ⬇️ <br>2- getCategories <br><br>`
         message += `▪ ${translation.write_new_topic} 📝 <br>3- CreatePosts <br><br>`
         message += `▪ ${translation.write_new_comment} 💬 <br>4- sendComment <br><br>`
         message += `▪ ${translation.send_message_private} 🔒 <br>5- sendMessagePrivate <br><br>`
-        message += `▪ ${translation.link_your_account_to} ${process.env.title_discourse || config?.title_discourse} <br>6- discourse <br><br>`
+        message += `▪ ${translation.link_your_account_to} ${process.env.discourse_forum_name || config?.discourse_forum_name} <br>6- discourse <br><br>`
         message += `▪ ${translation.activate_the_bot} <br>7- activation`
         let reply = RichReply.createFor(roomId, event, message, message);
         await client.sendMessage(roomId, reply).catch(error => console.log(error));

@@ -1,6 +1,6 @@
 {
 	"url": "https://$DISCOURSE_DOMAIN",
-	"title_discourse": "discourse forum name",
+	"discourse_forum_name": "discourse forum name",
 	"token_discourse": "discourse tokin",
 	"useername_discourse": "system",
 	"token_telegram": "telegram token",

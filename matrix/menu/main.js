@@ -51,7 +51,7 @@ export default {
 
             let Categories = await getCategories().catch(error => console.log(error));
             let url = process.env.url || config?.url;
-            let title = process.env.title_discourse || config?.title_discourse;
+            let title = process.env.discourse_forum_name || config?.discourse_forum_name;
             let message = `${translation.categories} ${title} ⬇️<br><br>`
 
             for (let item of Categories) {
