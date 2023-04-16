@@ -4,9 +4,9 @@ import * as dotenv from 'dotenv'
 dotenv.config({ override: true })
 
 let config = fs.readJsonSync('./config.json');
-let matrix_homeserver_url = process.env.matrix_homeserver_url || config?.matrix_homeserver_url;
-let username = process.env.matrix_username || config?.matrix_username;
-let password = process.env.matrix_password || config?.matrix_password;
+let matrix_homeserver_url = process.env.MATRIX_HOMESERVER_URL || config?.matrix_homeserver_url;
+let username = process.env.MATRIX_USERNAME || config?.matrix_username;
+let password = process.env.MATRIX_PASSWORD || config?.matrix_password;
 let auth = new MatrixAuth(matrix_homeserver_url);
 let login = await auth.passwordLogin(username, password);
 

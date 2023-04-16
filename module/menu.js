@@ -14,7 +14,7 @@ import discourse_2 from '../matrix/menu/discourse/discourse_2.js';
 import Translation from './translation.js';
 
 let config = fs.readJsonSync('./config.json');
-let translation = await Translation(`${process.env.language || config?.language}`);
+let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
 export default {
     main: {

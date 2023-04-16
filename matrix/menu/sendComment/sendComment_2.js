@@ -8,7 +8,7 @@ export default {
 
         let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
         let config = fs.readJsonSync('./config.json');
-        let translation = await Translation(`${process.env.language || config?.language}`);
+        let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
         if (body) {
 
@@ -27,7 +27,7 @@ export default {
                 let topic_slug = seCo?.topic_slug
                 let topic_id = seCo?.topic_id
                 let post_number = seCo?.post_number
-                let message = `<b>${translation.comment_posted} ✅ <a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
+                let message = `<b>${translation.comment_posted} ✅ <a href='${process.env.URL || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
                 let reply = RichReply.createFor(roomId, event, message, message);
                 await client.sendMessage(roomId, reply).catch(error => console.log(error));
             }

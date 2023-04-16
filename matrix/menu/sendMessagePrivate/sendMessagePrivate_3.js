@@ -7,7 +7,7 @@ export default {
     async exec({ meId, roomId, sender, name, checkRoom, roomIdOrAlias, body, replyBody, replySender, roomName, event_id, usersAdmin, RichReply, event, client }) {
 
         let config = fs.readJsonSync('./config.json');
-        let translation = await Translation(`${process.env.language || config?.language}`);
+        let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
         if (body) {
 

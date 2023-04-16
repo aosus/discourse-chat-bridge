@@ -18,7 +18,7 @@ export default async function EventText(client) {
         let me = ctx?.botInfo
         let body = ctx?.message.text;
         let config = fs.readJsonSync('./config.json');
-        let translation = await Translation(`${process.env.language || config?.language}`);
+        let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
         await database_telegram(id_from, username_from, name_from, 'from'); // from || user
         await database_telegram(id_chat, username_chat, name_chat, 'chat', message_id); // chat || supergroup or group
@@ -44,7 +44,7 @@ export default async function EventText(client) {
 
                         let topic_slug = seCo?.topic_slug
                         let post_number = seCo?.post_number
-                        let message = `<b>${translation.comment_posted} ✅ <a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
+                        let message = `<b>${translation.comment_posted} ✅ <a href='${process.env.URL || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
                         await ctx?.reply(message, { parse_mode: 'HTML', disable_web_page_preview: true });
 
                     }
@@ -63,7 +63,7 @@ export default async function EventText(client) {
 
                         let topic_slug = seCo?.topic_slug
                         let post_number = seCo?.post_number
-                        let message = `<b>${translation.comment_posted} ✅ <a href='${process.env.url || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
+                        let message = `<b>${translation.comment_posted} ✅ <a href='${process.env.URL || config?.url}/t/${topic_slug}/${topic_id}'>${post_number}</a></b>`
                         await ctx?.reply(message, { parse_mode: 'HTML', disable_web_page_preview: true });
 
                     }

@@ -7,12 +7,12 @@ export default {
     async exec({ meId, roomId, sender, name, checkRoom, roomIdOrAlias, body, replyBody, replySender, roomName, event_id, usersAdmin, RichReply, event, client }) {
 
         let config = fs.readJsonSync('./config.json');
-        let translation = await Translation(`${process.env.language || config?.language}`);
+        let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
         if (body) {
 
             let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
-            let url = process.env.url || config?.url
+            let url = process.env.URL || config?.url
             let category = memberJson?.CreatePosts_1;
             let title = memberJson?.CreatePosts_2;
             let raw = body;

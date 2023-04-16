@@ -7,9 +7,9 @@ export default {
 
         let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
         let config = fs.readJsonSync('./config.json');
-        let translation = await Translation(`${process.env.language || config?.language}`);
+        let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
-        if (body.includes(process.env.url || config?.url)) {
+        if (body.includes(process.env.URL || config?.url)) {
 
             let message = `${translation.write_comment} 📝`
 

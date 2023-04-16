@@ -7,7 +7,7 @@ export default {
 
         let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
         let config = fs.readJsonSync('./config.json');
-        let translation = await Translation(`${process.env.language || config?.language}`);
+        let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
         if (memberJson?.verification_code === body) {
 

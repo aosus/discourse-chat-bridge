@@ -14,19 +14,19 @@ export default {
         let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
         let roomJson = fs.readJsonSync(`./database/matrix/${checkRoom}/${roomId}.json`);
         let config = fs.readJsonSync('./config.json');
-        let translation = await Translation(`${process.env.language || config?.language}`);
+        let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
         if (body === '1' || body === '١' || body === 'get_latest_posts') {
 
             let get = await get_latest_posts().catch(error => console.log(error));
-            let response = await fetch(process.env.url || config?.url + `/t/${get?.topic_slug}/${get?.topic_id}`, { method: 'GET' });
+            let response = await fetch(process.env.URL || config?.url + `/t/${get?.topic_slug}/${get?.topic_id}`, { method: 'GET' });
             let data = await response?.text();
 
             if (data.includes('itemprop="image"')) {
 
                 let preview = data.split('itemprop="image" href="')[1]?.split('">')[0];
-                let caption = `<b><a href='${process.env.url || config?.url}/t/${get?.topic_slug}/${get?.topic_id}'>${get?.topic_title}</a></b> <br><br>`;
-                caption += `<b>${translation.writer}:</b> <a href='${process.env.url || config?.url}/u/${get?.username}'>${get?.name}</a> <br>`;
+                let caption = `<b><a href='${process.env.URL || config?.url}/t/${get?.topic_slug}/${get?.topic_id}'>${get?.topic_title}</a></b> <br><br>`;
+                caption += `<b>${translation.writer}:</b> <a href='${process.env.URL || config?.url}/u/${get?.username}'>${get?.name}</a> <br>`;
                 caption += `<b>${translation.date}:</b> ${moment(get?.created_at).format('iYYYY/iM/iD')}<br>`;
                 caption += `<b>${translation.number_topic}:</b> ${get?.topic_id}`;
                 let reply = RichReply.createFor(roomId, event, caption, caption);
@@ -37,8 +37,8 @@ export default {
             }
 
             else {
-                let caption = `<b><a href='${process.env.url || config?.url}/t/${get?.topic_slug}/${get?.topic_id}'>${get?.topic_title}</a></b> <br><br>`;
-                caption += `<b>${translation.writer}:</b> <a href='${process.env.url || config?.url}/u/${get?.username}'>${get?.name}</a> <br>`;
+                let caption = `<b><a href='${process.env.URL || config?.url}/t/${get?.topic_slug}/${get?.topic_id}'>${get?.topic_title}</a></b> <br><br>`;
+                caption += `<b>${translation.writer}:</b> <a href='${process.env.URL || config?.url}/u/${get?.username}'>${get?.name}</a> <br>`;
                 caption += `<b>${translation.date}:</b> ${moment(get?.created_at).format('iYYYY/iM/iD')}<br>`;
                 caption += `<b>${translation.number_topic}:</b> ${get?.topic_id}`;
                 let reply = RichReply.createFor(roomId, event, caption, caption);
@@ -50,8 +50,8 @@ export default {
         else if (body === '2' || body === '٢' || body === 'getCategories') {
 
             let Categories = await getCategories().catch(error => console.log(error));
-            let url = process.env.url || config?.url;
-            let title = process.env.discourse_forum_name || config?.discourse_forum_name;
+            let url = process.env.URL || config?.url;
+            let title = process.env.DISCOURSE_FORUM_NAME || config?.discourse_forum_name;
             let message = `${translation.categories} ${title} ⬇️<br><br>`
 
             for (let item of Categories) {

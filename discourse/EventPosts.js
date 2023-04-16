@@ -9,7 +9,7 @@ export default async function EventPosts(callback) {
 
             let config = fs.readJsonSync('./config.json');
             let EventPostsJson = fs.readJsonSync('./database/EventPosts.json');
-            let response = await fetch(process.env.url || config?.url + `/posts.json`, { method: 'GET' });
+            let response = await fetch(process.env.URL || config?.url + `/posts.json`, { method: 'GET' });
             let data = await response.json();
             let item = data?.latest_posts[0]
             let id = item.id;

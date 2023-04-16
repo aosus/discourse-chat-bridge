@@ -6,7 +6,7 @@ export default async function start(client, Markup) {
 
     client.start(async (ctx) => {
         let config = fs.readJsonSync('./config.json');
-        let translation = await Translation(`${process.env.language || config?.language}`);
+        let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
         let id_from = ctx?.from?.id;
         let id_chat = ctx?.chat?.id;
         let username_from = ctx?.from?.username;
@@ -16,16 +16,16 @@ export default async function start(client, Markup) {
         let type = ctx?.chat?.type;
         let message_id = ctx?.message?.message_id;
         let but_1 = [
-            Markup.button.url(process.env.discourse_forum_name || config?.discourse_forum_name, process.env.url || config?.url)
+            Markup.button.url(process.env.DISCOURSE_FORUM_NAME || config?.discourse_forum_name, process.env.URL || config?.url)
         ];
         let button = Markup.inlineKeyboard([but_1]);
-        let message = `<b>${translation.welcome} ${name_from} ${translation.in_the_bridge} ${process.env.discourse_forum_name || config?.discourse_forum_name} 👋</b> \n\n`
+        let message = `<b>${translation.welcome} ${name_from} ${translation.in_the_bridge} ${process.env.DISCOURSE_FORUM_NAME || config?.discourse_forum_name} 👋</b> \n\n`
         message += `▪ ${translation.view_last_topic} 📄 \n/get_latest_posts \n`
         message += `▪ ${translation.view_categories} ⬇️ \n/getCategories \n`
         message += `▪ ${translation.write_new_topic} 📝 \n/CreatePosts \n`
         message += `▪ ${translation.write_new_comment} 💬 \n/sendComment \n`
         message += `▪ ${translation.send_message_private} 🔒 \n/sendMessagePrivate \n`
-        message += `▪ ${translation.link_your_account_to} ${process.env.discourse_forum_name || config?.discourse_forum_name} \n/discourse \n`
+        message += `▪ ${translation.link_your_account_to} ${process.env.DISCOURSE_FORUM_NAME || config?.discourse_forum_name} \n/discourse \n`
         message += `▪ ${translation.activate_the_bot} \n/activation`
 
         if (type === 'group' || type === 'supergroup') {

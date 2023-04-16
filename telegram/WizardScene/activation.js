@@ -4,7 +4,7 @@ import getCategories from '../../discourse/getCategories.js';
 import Translation from '../../module/translation.js';
 
 let config = fs.readJsonSync('./config.json');
-let translation = await Translation(`${process.env.language || config?.language}`);
+let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
 export default new Scenes.WizardScene(
     'activation',

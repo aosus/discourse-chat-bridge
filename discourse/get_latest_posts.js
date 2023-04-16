@@ -6,7 +6,7 @@ export default async function get_latest_posts() {
     try {
 
         let config = fs.readJsonSync('./config.json');
-        let response = await fetch(process.env.url || config?.url + `/posts.json`, { method: 'GET' });
+        let response = await fetch(process.env.URL || config?.url + `/posts.json`, { method: 'GET' });
         let data = await response.json();
 
         if (data?.action && data?.errors) {

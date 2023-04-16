@@ -7,7 +7,7 @@ export default {
     async exec({ meId, roomId, sender, name, checkRoom, roomIdOrAlias, body, replyBody, replySender, roomName, event_id, usersAdmin, RichReply, event, client }) {
 
         let config = fs.readJsonSync('./config.json');
-        let translation = await Translation(`${process.env.language || config?.language}`);
+        let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
         if (body) {
 
@@ -16,7 +16,7 @@ export default {
             let raw = `${translation.verification_code_for} ${memberJson?.sender ? sender : memberJson?.name} <br><br>`;
             raw += memberJson?.verification_code;
             memberJson.discourse_username = body;
-            let Private = await sendMessagePrivate(process.env.discourse_username || config?.discourse_username, title, raw, body).catch(error => console.log(error));
+            let Private = await sendMessagePrivate(process.env.DISCOURSE_USERNAME || config?.discourse_username, title, raw, body).catch(error => console.log(error));
 
             fs.writeJsonSync(`./database/matrix/member/${sender}.json`, memberJson, { spaces: '\t' });
 

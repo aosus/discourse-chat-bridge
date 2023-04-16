@@ -16,12 +16,12 @@ export default async function sendComment(Api_Username, topic_id, raw) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Api-Key': process.env.discourse_token || config?.discourse_token,
+                'Api-Key': process.env.DISCOURSE_TOKEN || config?.discourse_token,
                 'Api-Username': Api_Username
             },
             body: JSON.stringify(body),
         }
-        let response = await fetch(process.env.url || config?.url + '/posts.json ', init);
+        let response = await fetch(process.env.URL || config?.url + '/posts.json ', init);
         let data = await response.json();
 
         if (data?.action && data?.errors) {

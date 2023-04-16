@@ -8,9 +8,9 @@ export default async function getCategories_(client) {
 
         let config = fs.readJsonSync('./config.json');
         let Categories = await getCategories();
-        let url = process.env.url || config?.url;
-        let title = process.env.discourse_forum_name || config?.discourse_forum_name;
-        let translation = await Translation(`${process.env.language || config?.language}`);
+        let url = process.env.URL || config?.url;
+        let title = process.env.DISCOURSE_FORUM_NAME || config?.discourse_forum_name;
+        let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
         let message = `${translation.categories} ${title} ⬇️\n\n`
 
         for (let item of Categories) {

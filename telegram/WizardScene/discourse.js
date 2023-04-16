@@ -4,7 +4,7 @@ import sendMessagePrivate from '../../discourse/sendMessagePrivate.js';
 import Translation from '../../module/translation.js';
 
 let config = fs.readJsonSync('./config.json');
-let translation = await Translation(`${process.env.language || config?.language}`);
+let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
 export default new Scenes.WizardScene(
     'discourse',
@@ -41,7 +41,7 @@ export default new Scenes.WizardScene(
             let title = `${translation.verification_code}`
             let raw = `${translation.verification_code_for} ${fromJson?.username ? '@' + fromJson?.username : fromJson?.name} \n\n`;
             raw += fromJson?.verification_code;
-            let Private = await sendMessagePrivate(process.env.discourse_username || config?.discourse_username, title, raw, ctx.message?.text);
+            let Private = await sendMessagePrivate(process.env.DISCOURSE_USERNAME || config?.discourse_username, title, raw, ctx.message?.text);
             if (Private?.errors) {
                 for (let item of Private?.errors) {
                     ctx?.reply(item);

@@ -6,7 +6,7 @@ export default async function getComment(topic_id, comment_id) {
     try {
 
         let config = fs.readJsonSync('./config.json');
-        let response = await fetch(process.env.url || config?.url + `/t/${topic_id}/posts.json`, { method: 'GET' });
+        let response = await fetch(process.env.URL || config?.url + `/t/${topic_id}/posts.json`, { method: 'GET' });
         let data = await response.json();
 
         if (data?.action && data?.errors) {
