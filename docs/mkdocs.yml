@@ -17,6 +17,7 @@ plugins:
 theme: 
   name: material
   custom_dir: overrides
+  logo: images/Discourse_Bridge.webp
   icon:
     repo: fontawesome/brands/github
   font: false
