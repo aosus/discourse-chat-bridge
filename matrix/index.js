@@ -1,5 +1,5 @@
 import {
-    AutojoinRoomsMixin,
+    matrix_autoJoinRoomsMixin,
     LogLevel,
     LogService,
     MatrixClient,
@@ -104,7 +104,7 @@ export default async function MatrixBot() {
 
         if (error?.body[0]?.errcode === 'M_UNKNOWN') {
 
-            console.log('Type the command npm run accessToken and then restart the bot');
+            console.log('Run the command "npm run generate_matrix_token" and restart the bridge');
         }
 
     }

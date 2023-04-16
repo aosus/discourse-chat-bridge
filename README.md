@@ -117,7 +117,7 @@ nano config.json
 	"matrix_username": "Username to your Matrix account #aosus",
 	"matrix_password": "Password to your Matrix account #*****",
 	"matrix_homeserver_url": "https://matrix.org",
-	"matrix_access_token": "Put your matrix_access_token here #npm run matrix_access_token",
+	"matrix_access_token": "Put your matrix_access_token here #npm run generate_matrix_token",
 	"matrix_autoJoin": true,
 	"dataPath": "storage",
 	"matrix_encryption": true,
@@ -130,11 +130,11 @@ nano config.json
 
 ```bash
 npm i
-npm run matrix_access_token
+npm run generate_matrix_token
 npm start
 or
 node index.js
 ```
 
 
-``` ملاحظة / عند كتابة الأمر npm run matrix_access_token سيتم توليد التوكن لـ (Matrix) بشكل تلقائي وحفظه في ملف config.json ```
+``` ملاحظة / عند كتابة الأمر npm run generate_matrix_token سيتم توليد التوكن لـ (Matrix) بشكل تلقائي وحفظه في ملف config.json ```
