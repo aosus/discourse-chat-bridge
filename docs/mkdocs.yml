@@ -3,7 +3,7 @@ site_url: https://discourse-chat-bridge.aosus.dev
 repo_name: aosus/discourse-chat-bridge
 repo_url: https://github.com/aosus/discourse-chat-bridge
 edit_uri: https://github.com/aosus/discourse-chat-bridge/docs
-site_description: 
+site_description: A chat bridge allowing users to post, reply and interact with discourse posts from their own favorite chat platforms.
 docs_dir: source
 
 plugins:
