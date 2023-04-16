@@ -2,9 +2,9 @@ site_name: Discourse chat bridge
 site_url: https://discourse-chat-bridge.aosus.dev
 repo_name: aosus/discourse-chat-bridge
 repo_url: https://github.com/aosus/discourse-chat-bridge
-edit_uri: https://github.com/aosus/discourse-chat-bridge/docs/en
+edit_uri: https://github.com/aosus/discourse-chat-bridge/docs
 site_description: 
-docs_dir: ./en
+docs_dir: source
 
 plugins:
   - autolinks
