@@ -44,11 +44,8 @@ jobs:
         python -m pip install -r docs/requirements.txt
         pip show mkdocs-material
 
-    - name: mkdocs build EN
+    - name: mkdocs build
       run: mkdocs build -f docs/mkdocs.yml --clean --verbose -d generated
-
-    - name: mkdocs build AR
-      run: mkdocs build -f docs/mkdocs-ar.yml --clean --verbose -d generated/ar
 
     - name: Include _headers file
       run: cp docs/_headers docs/generated/_headers
