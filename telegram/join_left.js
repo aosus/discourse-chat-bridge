@@ -1,10 +1,13 @@
 import fs from 'fs-extra';
 import database_telegram from '../module/database_telegram.js';
+import path from 'path';
 
 export default async function join_left(client) {
 
     client.on("my_chat_member", async (ctx) => {
 
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         let id_from = ctx?.from?.id;
         let id_chat = ctx?.chat?.id;
         let username_chat = ctx?.chat?.username;
@@ -27,21 +30,21 @@ export default async function join_left(client) {
 
             if (type === 'private') {
 
-                let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
+                let fromJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`));
                 fromJson.evenPost = false
                 fromJson.categories = null
                 fromJson.access = false
-                fs.writeJsonSync(`./database/telegram/from/${id_from}.json`, fromJson, { spaces: '\t' });
+                fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`), fromJson, { spaces: '\t' });
 
             }
 
             else {
 
-                let chatJson = fs.readJsonSync(`./database/telegram/chat/${id_chat}.json`);
+                let chatJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/chat/${id_chat}.json`));
                 chatJson.evenPost = false
                 chatJson.categories = null
                 chatJson.access = false
-                fs.writeJsonSync(`./database/telegram/chat/${id_chat}.json`, chatJson, { spaces: '\t' });
+                fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/chat/${id_chat}.json`), chatJson, { spaces: '\t' });
             }
 
         }

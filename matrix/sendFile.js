@@ -1,16 +1,17 @@
 import fs from 'fs-extra';
 import getBuffer from '../module/getBuffer.js';
+import path from 'path';
 
 export default async function sendFile(roomId, filePath, type, client) {
 
-    let worksBuffer 
+    let worksBuffer
     let checkfilePath = filePath.includes('https') || filePath.includes('http');
-
+    let __dirname = path.resolve();
     if (checkfilePath) {
 
         let buffer = await getBuffer(filePath).catch(error => console.log(error));
-        fs.writeFileSync('./preview.png', Buffer.from(buffer));
-        worksBuffer = fs.readFileSync('./preview.png');
+        fs.writeFileSync(path.join(__dirname, '/preview.png', Buffer.from(buffer)));
+        worksBuffer = fs.readFileSync(path.join(__dirname, '/preview.png'));
     }
 
     else {

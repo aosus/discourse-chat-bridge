@@ -2,23 +2,25 @@ import fs from 'fs-extra';
 import { database_matrix_member } from '../../../module/database_matrix.js';
 import sendMessagePrivate from '../../../discourse/sendMessagePrivate.js';
 import Translation from '../../../module/translation.js';
+import path from 'path';
 
 export default {
     async exec({ meId, roomId, sender, name, checkRoom, roomIdOrAlias, body, replyBody, replySender, roomName, event_id, usersAdmin, RichReply, event, client }) {
 
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
         if (body) {
 
-            let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
+            let memberJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/member/${sender}.json`));
             let title = `${translation.verification_code}`
             let raw = `${translation.verification_code_for} ${memberJson?.sender ? sender : memberJson?.name} <br><br>`;
             raw += memberJson?.verification_code;
             memberJson.discourse_username = body;
             let Private = await sendMessagePrivate(process.env.DISCOURSE_USERNAME || config?.discourse_username, title, raw, body).catch(error => console.log(error));
 
-            fs.writeJsonSync(`./database/matrix/member/${sender}.json`, memberJson, { spaces: '\t' });
+            fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/member/${sender}.json`), memberJson, { spaces: '\t' });
 
             if (Private?.errors) {
                 for (let item of Private?.errors) {

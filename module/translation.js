@@ -1,12 +1,14 @@
 import fs from 'fs-extra';
+import path from 'path';
 
 export default async function Translation(language) {
 
-    let ExistsLanguage = fs.existsSync(`./translation/${language?.toLowerCase()}.json`);
+    let __dirname = path.resolve();
+    let ExistsLanguage = fs.existsSync(path.join(__dirname, `/translation/${language?.toLowerCase()}.json`));
 
     if (ExistsLanguage) {
 
-        let ReadLanguage = fs.readJsonSync(`./translation/${language?.toLowerCase()}.json`);
+        let ReadLanguage = fs.readJsonSync(path.join(__dirname, `/translation/${language?.toLowerCase()}.json`));
 
         return {
             number_topic: ReadLanguage?.number_topic,
@@ -63,7 +65,7 @@ export default async function Translation(language) {
     }
 
     else {
-        let ReadLanguage = fs.readJsonSync(`./translation/ar.json`);
+        let ReadLanguage = fs.readJsonSync(path.join(__dirname, `/translation/ar.json`));
 
         return {
             number_topic: ReadLanguage?.number_topic,

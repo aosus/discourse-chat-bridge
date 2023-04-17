@@ -2,6 +2,7 @@ import fs from 'fs-extra';
 import database_telegram from '../module/database_telegram.js';
 import sendComment from '../discourse/sendComment.js';
 import Translation from '../module/translation.js';
+import path from 'path';
 
 export default async function EventText(client) {
 
@@ -17,7 +18,8 @@ export default async function EventText(client) {
         let message_id = ctx?.message?.message_id;
         let me = ctx?.botInfo
         let body = ctx?.message.text;
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
         await database_telegram(id_from, username_from, name_from, 'from'); // from || user
@@ -27,7 +29,7 @@ export default async function EventText(client) {
 
             let caption = ctx?.message?.reply_to_message?.caption
             let text = ctx?.message?.reply_to_message?.text
-            let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
+            let fromJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`));
 
             if (fromJson?.access) {
 

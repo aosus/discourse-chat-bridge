@@ -1,8 +1,10 @@
 import fs from 'fs-extra';
 import sendComment from '../discourse/sendComment.js';
 import Translation from '../module/translation.js';
+import path from 'path';
 
-let config = fs.readJsonSync('./config.json');
+let __dirname = path.resolve();
+let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
 let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
 export default async function EventReply(roomId, sender, meId, body, replySender, replyBody, event, RichReply, client) {
@@ -10,7 +12,7 @@ export default async function EventReply(roomId, sender, meId, body, replySender
     if (replySender?.includes(meId)) {
 
         let topic_id = replyBody?.split(`${translation.number_topic}:</b> `)[1];
-        let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
+        let memberJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/member/${sender}.json`));
 
         if (topic_id) {
 

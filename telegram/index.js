@@ -5,12 +5,14 @@ import WizardScene from './WizardScene/WizardScene.js';
 import join_left from './join_left.js';
 import EventText from './EventText.js';
 import EventPosts_ from './EventPosts_.js';
+import path from 'path';
 
 export default async function telegram() {
 
     try {
 
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         let options = { channelMode: true, polling: true };
         let client = new Telegraf(process.env.TELEGRAM_TOKEN || config?.telegram_token, options);
         let stage = new Scenes.Stage(WizardScene);

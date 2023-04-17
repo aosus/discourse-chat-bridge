@@ -1,11 +1,13 @@
 import fetch from 'node-fetch';
 import fs from 'fs-extra';
+import path from 'path';
 
 export default async function CreatePosts(Api_Username, title, raw, category) {
 
     try {
 
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         let body = {
 
             "title": title,

@@ -1,5 +1,5 @@
 import {
-    matrix_autojoinRoomsMixin,
+    AutojoinRoomsMixin,
     LogLevel,
     LogService,
     MatrixClient,
@@ -14,14 +14,15 @@ import menu from '../module/menu.js';
 import { database_matrix, database_matrix_member } from '../module/database_matrix.js';
 import EventPosts_ from './EventPosts.js';
 import EventReply from './EventReply.js';
-import * as path from "path";
+import path from 'path';
 import fs from 'fs-extra';
 
 export default async function MatrixBot() {
 
     try {
 
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         LogService.setLevel(LogLevel.name);
 
         let storage = new SimpleFsStorageProvider(path.join(process.env.DATAPATH || config?.dataPath, "matrix.json"));
@@ -34,7 +35,7 @@ export default async function MatrixBot() {
         let client = new MatrixClient(process.env.MATRIX_HOMESERVER_URL || config?.matrix_homeserver_url, process.env.MATRIX_ACCESS_TOKEN || config?.matrix_access_token, storage, cryptoStore);
         // Setup the matrix_autojoin mixin (if enabled)
         if (process.env.MATRIX_ACCESS_TOKEN === "true" || config?.matrix_autojoin) {
-            matrix_autojoinRoomsMixin.setupOnClient(client);
+            AutojoinRoomsMixin.setupOnClient(client);
         }
 
         client.addPreprocessor(new RichRepliesPreprocessor(false));
@@ -102,7 +103,7 @@ export default async function MatrixBot() {
 
         console.log(error);
 
-        if (error?.body[0]?.errcode === 'M_UNKNOWN') {
+        if (error?.body?.[0]?.errcode === 'M_UNKNOWN') {
 
             console.log('Run the command "npm run generate_matrix_token" and restart the bridge');
         }

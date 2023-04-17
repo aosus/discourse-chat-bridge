@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import fs from 'fs-extra';
+import path from 'path';
 
 export default async function EventPosts(callback) {
 
@@ -7,7 +8,8 @@ export default async function EventPosts(callback) {
 
         try {
 
-            let config = fs.readJsonSync('./config.json');
+            let __dirname = path.resolve();
+            let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
             let EventPostsJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/EventPosts.json"));
             let response = await fetch(process.env.URL || config?.url + `/posts.json`, { method: 'GET' });
             let data = await response.json();

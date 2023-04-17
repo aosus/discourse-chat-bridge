@@ -1,7 +1,11 @@
 import fs from 'fs-extra';
+import path from 'path';
 
 export default async function Crate() {
 
+    let __dirname = path.resolve();
+    let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
+    let datapath = fs.existsSync(process.env.DATAPATH || config?.dataPath);
     let database = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database"));
     let telegram = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/telegram"));
     let chat = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/telegram/chat"));
@@ -12,6 +16,9 @@ export default async function Crate() {
     let member = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/matrix/member"));
     let EventPosts = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/EventPosts.json"));
 
+    if (datapath === false) {
+        fs.mkdirSync(process.env.DATAPATH || config?.dataPath, { recursive: true });
+    }
     if (database === false) {
         fs.mkdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database"), { recursive: true });
     }

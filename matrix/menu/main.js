@@ -6,14 +6,16 @@ import get_latest_posts from '../../discourse/get_latest_posts.js';
 import getCategories from '../../discourse/getCategories.js';
 import { database_matrix_member } from '../../module/database_matrix.js';
 import Translation from '../../module/translation.js';
+import path from 'path';
 moment.locale('en-EN');
 
 export default {
     async exec({ meId, roomId, sender, name, checkRoom, roomIdOrAlias, body, replyBody, replySender, roomName, event_id, usersAdmin, RichReply, event, client }) {
 
-        let memberJson = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
-        let roomJson = fs.readJsonSync(`./database/matrix/${checkRoom}/${roomId}.json`);
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
+        let memberJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/member/${sender}.json`));
+        let roomJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/${checkRoom}/${roomId}.json`));
         let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
         if (body === '1' || body === '١' || body === 'get_latest_posts') {
@@ -216,7 +218,7 @@ export default {
                     let reply = RichReply.createFor(roomId, event, message, message);
                     roomJson.evenPost = true;
                     roomJson.categories = 0;
-                    fs.writeJsonSync(`./database/matrix/${checkRoom}/${roomId}.json`, roomJson, { spaces: '\t' });
+                    fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/${checkRoom}/${roomId}.json`), roomJson, { spaces: '\t' });
                     await client.sendMessage(roomId, reply).catch(error => console.log(error));
                 }
 

@@ -1,12 +1,14 @@
 import getCategories from '../../discourse/getCategories.js';
 import fs from 'fs-extra';
 import Translation from '../../module/translation.js';
+import path from 'path';
 
 export default async function getCategories_(client) {
 
     client.command('getCategories', async (ctx) => {
 
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         let Categories = await getCategories();
         let url = process.env.URL || config?.url;
         let title = process.env.DISCOURSE_FORUM_NAME || config?.discourse_forum_name;
