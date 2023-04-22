@@ -2,15 +2,18 @@ import { Scenes } from 'telegraf';
 import fs from 'fs-extra';
 import sendMessagePrivate from '../../discourse/sendMessagePrivate.js';
 import Translation from '../../module/translation.js';
+import path from 'path';
 
-let config = fs.readJsonSync('./config.json');
+
+let __dirname = path.resolve();
+let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
 let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
 export default new Scenes.WizardScene(
     'discourse',
     async (ctx) => {
         let id_from = ctx?.from?.id;
-        let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
+        let fromJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`));
 
         if (ctx?.chat?.type === 'supergroup' || ctx?.chat?.type === 'group') {
 
@@ -35,9 +38,9 @@ export default new Scenes.WizardScene(
 
         if (ctx.message?.text !== undefined) {
             let id_from = ctx?.from?.id;
-            let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
+            let fromJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`));
             fromJson.discourse_username = ctx.message?.text;
-            fs.writeJsonSync(`./database/telegram/from/${id_from}.json`, fromJson, { spaces: '\t' });
+            fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`), fromJson, { spaces: '\t' });
             let title = `${translation.verification_code}`
             let raw = `${translation.verification_code_for} ${fromJson?.username ? '@' + fromJson?.username : fromJson?.name} \n\n`;
             raw += fromJson?.verification_code;
@@ -65,11 +68,11 @@ export default new Scenes.WizardScene(
         if (ctx.message?.text !== undefined) {
 
             let id_from = ctx?.from?.id;
-            let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
+            let fromJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`));
             if (fromJson?.verification_code === ctx.message?.text) {
 
                 fromJson.access = true
-                fs.writeJsonSync(`./database/telegram/from/${id_from}.json`, fromJson, { spaces: '\t' });
+                fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`), fromJson, { spaces: '\t' });
                 ctx?.reply(`${translation.active_bridge} ✅`);
             }
             else {

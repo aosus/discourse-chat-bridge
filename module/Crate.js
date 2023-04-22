@@ -1,43 +1,50 @@
 import fs from 'fs-extra';
+import path from 'path';
 
 export default async function Crate() {
 
-    let database = fs.existsSync('./database');
-    let telegram = fs.existsSync('./database/telegram');
-    let chat = fs.existsSync('./database/telegram/chat');
-    let from = fs.existsSync('./database/telegram/from');
-    let matrix = fs.existsSync('./database/matrix');
-    let room = fs.existsSync('./database/matrix/room');
-    let direct = fs.existsSync('./database/matrix/direct');
-    let member = fs.existsSync('./database/matrix/member');
-    let EventPosts = fs.existsSync('./database/EventPosts.json');
+    let __dirname = path.resolve();
+    let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
+    let datapath = fs.existsSync(process.env.DATAPATH || config?.dataPath);
+    let database = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database"));
+    let telegram = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/telegram"));
+    let chat = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/telegram/chat"));
+    let from = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/telegram/from"));
+    let matrix = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/matrix"));
+    let room = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/matrix/room"));
+    let direct = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/matrix/direct"));
+    let member = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/matrix/member"));
+    let EventPosts = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/EventPosts.json"));
 
+    if (datapath === false) {
+        fs.mkdirSync(process.env.DATAPATH || config?.dataPath, { recursive: true });
+    }
     if (database === false) {
-        fs.mkdirSync('./database', { recursive: true });
+        fs.mkdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database"), { recursive: true });
     }
     if (telegram === false) {
-        fs.mkdirSync('./database/telegram', { recursive: true });
+        fs.mkdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/telegram"), { recursive: true });
     }
     if (chat === false) {
-        fs.mkdirSync('./database/telegram/chat', { recursive: true });
+        fs.mkdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/telegram/chat"), { recursive: true });
     }
     if (from === false) {
-        fs.mkdirSync('./database/telegram/from', { recursive: true });
+        fs.mkdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/telegram/from"), { recursive: true });
     }
     if (matrix === false) {
-        fs.mkdirSync('./database/matrix', { recursive: true });
+        fs.mkdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/matrix"), { recursive: true });
     }
     if (room === false) {
-        fs.mkdirSync('./database/matrix/room', { recursive: true });
+        fs.mkdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/matrix/room"), { recursive: true });
     }
     if (direct === false) {
-        fs.mkdirSync('./database/matrix/direct', { recursive: true });
+        fs.mkdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/matrix/direct"), { recursive: true });
     }
     if (member === false) {
-        fs.mkdirSync('./database/matrix/member', { recursive: true });
+        fs.mkdirSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/matrix/member"), { recursive: true });
     }
     if (EventPosts === false) {
-        fs.writeJsonSync('./database/EventPosts.json', []);
+        fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, "/database/EventPosts.json"), []);
     }
 
 }

@@ -1,11 +1,13 @@
 import database_telegram from '../../module/database_telegram.js';
 import fs from 'fs-extra';
 import Translation from '../../module/translation.js';
+import path from 'path';
 
 export default async function start(client, Markup) {
 
     client.start(async (ctx) => {
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
         let id_from = ctx?.from?.id;
         let id_chat = ctx?.chat?.id;

@@ -1,6 +1,7 @@
 import { database_matrix_member } from '../module/database_matrix.js';
 import fs from 'fs-extra';
 import Translation from '../module/translation.js';
+import path from 'path';
 
 export default async function start(roomId, sender, name, body, event, RichReply, client) {
 
@@ -8,7 +9,8 @@ export default async function start(roomId, sender, name, body, event, RichReply
 
         await database_matrix_member({ sender: sender, menu: 'main' }).catch(error => console.log(error));
 
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
         let message = `<b>${translation.welcome} ${name} ${translation.in_the_bridge} ${process.env.DISCOURSE_FORUM_NAME || config?.discourse_forum_name} 👋</b> <br>`
         message += `${translation.send_number_or_name_service} <br><br>`

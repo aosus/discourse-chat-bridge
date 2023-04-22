@@ -4,6 +4,7 @@ import moment from 'moment-hijri';
 import EventPosts from '../discourse/EventPosts.js';
 import getUserTelegram from '../module/getUserTelegram.js';
 import Translation from '../module/translation.js';
+import path from 'path';
 moment.locale('en-EN');
 
 export default async function EventPosts_(client) {
@@ -12,7 +13,8 @@ export default async function EventPosts_(client) {
 
         try {
 
-            let config = fs.readJsonSync('./config.json');
+            let __dirname = path.resolve();
+            let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
             let name = e?.name;
             let username = e?.username;
             let created_at = e?.created_at;
@@ -34,8 +36,8 @@ export default async function EventPosts_(client) {
 
                 for (let item of getUser) {
 
-                    let fromJson = fs.existsSync(`./database/telegram/from/${item}.json`);
-                    let chat = fromJson ? fs.readJsonSync(`./database/telegram/from/${item}.json`) : fs.readJsonSync(`./database/telegram/chat/${item}.json`);
+                    let fromJson = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${item}.json`));
+                    let chat = fromJson ? fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${item}.json`)) : fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/chat/${item}.json`));
 
                     if (chat?.categories === category_id) {
                         let preview = data.split('itemprop="image" href="')[1]?.split('">')[0];
@@ -64,8 +66,8 @@ export default async function EventPosts_(client) {
 
                 for (let item of getUser) {
 
-                    let fromJson = fs.existsSync(`./database/telegram/from/${item}.json`);
-                    let chat = fromJson ? fs.readJsonSync(`./database/telegram/from/${item}.json`) : fs.readJsonSync(`./database/telegram/chat/${item}.json`);
+                    let fromJson = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${item}.json`));
+                    let chat = fromJson ? fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${item}.json`)) : fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/chat/${item}.json`));
 
                     if (chat?.categories === category_id) {
                         let caption = `<b><a href='${process.env.URL || config?.url}/t/${topic_slug}/${topic_id}'>${topic_title}</a></b> \n\n`;

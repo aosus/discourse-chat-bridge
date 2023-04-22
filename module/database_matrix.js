@@ -1,9 +1,12 @@
 import fs from 'fs-extra';
 import random from './random.js';
+import path from 'path';
 
 export async function database_matrix({ roomId: roomId, sender: sender, name: name, checkRoom: checkRoom, roomIdOrAlias: roomIdOrAlias }) {
 
-    let create_db_user = fs.existsSync(`./database/matrix/${checkRoom}/${roomId}.json`);
+    let __dirname = path.resolve();
+    let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
+    let create_db_user = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/${checkRoom}/${roomId}.json`));
 
     if (create_db_user === false) {
 
@@ -18,7 +21,7 @@ export async function database_matrix({ roomId: roomId, sender: sender, name: na
                 categories: null
             }
 
-            fs.writeJsonSync(`./database/matrix/${checkRoom}/${roomId}.json`, opj, { spaces: '\t' });
+            fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/${checkRoom}/${roomId}.json`), opj, { spaces: '\t' });
         }
 
         else if (checkRoom === 'direct') {
@@ -32,7 +35,7 @@ export async function database_matrix({ roomId: roomId, sender: sender, name: na
                 categories: null,
             }
 
-            fs.writeJsonSync(`./database/matrix/${checkRoom}/${roomId}.json`, opj, { spaces: '\t' });
+            fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/${checkRoom}/${roomId}.json`), opj, { spaces: '\t' });
 
         }
 
@@ -40,7 +43,7 @@ export async function database_matrix({ roomId: roomId, sender: sender, name: na
 
     else {
 
-        let db_user = fs.readJsonSync(`./database/matrix/${checkRoom}/${roomId}.json`);
+        let db_user = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/${checkRoom}/${roomId}.json`));
         db_user.name = name;
 
         if (checkRoom === 'direct') {
@@ -51,7 +54,7 @@ export async function database_matrix({ roomId: roomId, sender: sender, name: na
             db_user.roomIdOrAlias = roomIdOrAlias;
         }
 
-        fs.writeJsonSync(`./database/matrix/${checkRoom}/${roomId}.json`, db_user, { spaces: '\t' });
+        fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/${checkRoom}/${roomId}.json`), db_user, { spaces: '\t' });
     }
 
 }
@@ -61,7 +64,7 @@ export async function database_matrix_member({ sender: sender, name: name, menu:
 
     if (sender && name) {
 
-        let create_db_user = fs.existsSync(`./database/matrix/member/${sender}.json`);
+        let create_db_user = fs.existsSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/member/${sender}.json`));
 
         if (create_db_user === false) {
 
@@ -73,22 +76,22 @@ export async function database_matrix_member({ sender: sender, name: name, menu:
                 menu: 'main'
             }
 
-            fs.writeJsonSync(`./database/matrix/member/${sender}.json`, opj, { spaces: '\t' });
+            fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/member/${sender}.json`), opj, { spaces: '\t' });
         }
 
         else {
 
-            let db_user = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
+            let db_user = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/member/${sender}.json`));
             db_user.name = name;
             db_user.sender = sender;
-            fs.writeJsonSync(`./database/matrix/member/${sender}.json`, db_user, { spaces: '\t' });
+            fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/member/${sender}.json`), db_user, { spaces: '\t' });
         }
     }
 
     else {
-        let db_user = fs.readJsonSync(`./database/matrix/member/${sender}.json`);
+        let db_user = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/member/${sender}.json`));
         db_user.menu = menu;
-        fs.writeJsonSync(`./database/matrix/member/${sender}.json`, db_user, { spaces: '\t' });
+        fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/matrix/member/${sender}.json`), db_user, { spaces: '\t' });
     }
 
 }

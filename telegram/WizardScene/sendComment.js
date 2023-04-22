@@ -2,15 +2,17 @@ import { Scenes } from 'telegraf';
 import fs from 'fs-extra';
 import sendComment from '../../discourse/sendComment.js';
 import Translation from '../../module/translation.js';
+import path from 'path';
 
-let config = fs.readJsonSync('./config.json');
+let __dirname = path.resolve();
+let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
 let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
 export default new Scenes.WizardScene(
     'sendComment',
     async (ctx) => {
         let id_from = ctx?.from?.id;
-        let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
+        let fromJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`));
         if (fromJson?.access === false) {
             let message = `${translation.first_link_your_account} /discourse ❌`
             ctx?.reply(message);
@@ -70,7 +72,7 @@ export default new Scenes.WizardScene(
 
             let url = process.env.URL || config?.url
             let id_from = ctx?.from?.id;
-            let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
+            let fromJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`));
             let raw = ctx.message?.text;
             let topic_id = ctx.wizard.state.data.topic_id
             let seCo = await sendComment(fromJson?.discourse_username, topic_id, raw);

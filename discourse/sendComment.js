@@ -1,11 +1,13 @@
 import fetch from 'node-fetch';
 import fs from 'fs-extra';
+import path from 'path';
 
 export default async function sendComment(Api_Username, topic_id, raw) {
 
     try {
 
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         let body = {
 
             "raw": raw,

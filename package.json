@@ -12,10 +12,10 @@
   "license": "agpl-3.0",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "fs-extra": "^10.1.0",
-    "matrix-bot-sdk": "^0.6.2",
+    "fs-extra": "^11.1.1",
+    "matrix-bot-sdk": "^0.6.5",
     "moment-hijri": "^2.1.2",
-    "node-fetch": "^3.3.0",
+    "node-fetch": "^3.3.1",
     "telegraf": "^4.12.2"
   },
   "devDependencies": {

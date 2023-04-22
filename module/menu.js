@@ -12,8 +12,10 @@ import sendMessagePrivate_3 from '../matrix/menu/sendMessagePrivate/sendMessageP
 import discourse_1 from '../matrix/menu/discourse/discourse_1.js';
 import discourse_2 from '../matrix/menu/discourse/discourse_2.js';
 import Translation from './translation.js';
+import path from 'path';
 
-let config = fs.readJsonSync('./config.json');
+let __dirname = path.resolve();
+let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
 let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
 export default {

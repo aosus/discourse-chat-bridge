@@ -5,6 +5,7 @@ import getrRoomMatrix from '../module/getrRoomMatrix.js';
 import sendFile from './sendFile.js';
 import fs from 'fs-extra';
 import Translation from '../module/translation.js';
+import path from 'path';
 
 
 export default async function EventPosts_(client) {
@@ -13,7 +14,8 @@ export default async function EventPosts_(client) {
 
         try {
 
-            let config = fs.readJsonSync('./config.json');
+            let __dirname = path.resolve();
+            let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
             let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
             let name = e?.name;
             let username = e?.username;

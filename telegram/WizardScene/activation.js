@@ -2,8 +2,10 @@ import { Scenes } from 'telegraf';
 import fs from 'fs-extra';
 import getCategories from '../../discourse/getCategories.js';
 import Translation from '../../module/translation.js';
+import path from 'path';
 
-let config = fs.readJsonSync('./config.json');
+let __dirname = path.resolve();
+let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
 let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
 
 export default new Scenes.WizardScene(
@@ -14,7 +16,7 @@ export default new Scenes.WizardScene(
         let id_chat = ctx?.chat?.id;
 
         if (type === 'private') {
-            let fromJson = fs.readJsonSync(`./database/telegram/from/${id_from}.json`);
+            let fromJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`));
             if (fromJson?.evenPost) {
                 await ctx?.reply(`${translation.err_active_in_the_chat} ⁉️`);
                 return ctx.scene.leave();
@@ -22,7 +24,7 @@ export default new Scenes.WizardScene(
             else {
                 fromJson.evenPost = true
                 fromJson.categories = 0
-                fs.writeJsonSync(`./database/telegram/from/${id_from}.json`, fromJson, { spaces: '\t' });
+                fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/from/${id_from}.json`), fromJson, { spaces: '\t' });
                 await ctx?.reply(`${translation.active_bot} ✅`);
                 return ctx.scene.leave();
             }
@@ -30,7 +32,7 @@ export default new Scenes.WizardScene(
 
         else {
 
-            let chatJson = fs.readJsonSync(`./database/telegram/chat/${id_chat}.json`);
+            let chatJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/chat/${id_chat}.json`));
 
             if (chatJson?.evenPost) {
 
@@ -81,10 +83,10 @@ export default new Scenes.WizardScene(
 
         if (ctx?.message?.text !== undefined && !isNaN(ctx?.message?.text)) {
 
-            let chatJson = fs.readJsonSync(`./database/telegram/chat/${id_chat}.json`);
+            let chatJson = fs.readJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/chat/${id_chat}.json`));
             chatJson.categories = Number(ctx?.message?.text);
             chatJson.evenPost = true
-            fs.writeJsonSync(`./database/telegram/chat/${id_chat}.json`, chatJson, { spaces: '\t' });
+            fs.writeJsonSync(path.join(process.env.DATAPATH || config?.dataPath, `/database/telegram/chat/${id_chat}.json`), chatJson, { spaces: '\t' });
             ctx?.reply(`${translation.active_bot} ✅`);
             return ctx.scene.leave();
         }

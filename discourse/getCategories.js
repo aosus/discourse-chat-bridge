@@ -1,11 +1,13 @@
 import fetch from 'node-fetch';
 import fs from 'fs-extra';
+import path from 'path';
 
 export default async function getCategories() {
 
     try {
 
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         let response = await fetch(process.env.URL || config?.url + `/categories.json`, { method: 'GET' });
         let data = await response.json();
 

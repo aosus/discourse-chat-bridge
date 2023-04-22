@@ -3,6 +3,7 @@ import moment from 'moment-hijri';
 import fs from 'fs-extra';
 import get_latest_posts from '../../discourse/get_latest_posts.js';
 import Translation from '../../module/translation.js';
+import path from 'path';
 
 moment.locale('en-EN');
 
@@ -10,7 +11,8 @@ export default async function get_latest_posts_(client) {
 
     client.command('get_latest_posts', async (ctx) => {
 
-        let config = fs.readJsonSync('./config.json');
+        let __dirname = path.resolve();
+        let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
         let translation = await Translation(`${process.env.LANGUAGE || config?.language}`);
         let get = await get_latest_posts();
         let response = await fetch(process.env.URL || config?.url + `/t/${get?.topic_slug}/${get?.topic_id}`, { method: 'GET' });
