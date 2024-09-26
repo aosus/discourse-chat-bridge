@@ -1,0 +1,87 @@
+name: Build Docs
+
+on:
+  workflow_dispatch:
+  push:
+    paths: 
+      - 'docs/**'
+      - '.github/workflows/mkdocs-build.yml'
+      - 'docs/requirements.txt'
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    paths: 
+      - 'docs/**'
+      - '.github/workflows/mkdocs-build.yml'
+      - 'docs/requirements.txt'
+  pull_request_review:
+    types: [edited, dismissed]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+    - name: Checkout 🛎️
+      uses: actions/checkout@v3 
+      with:
+        persist-credentials: false
+        fetch-depth: '0'
+
+    # setup python
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11.*
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools
+        python -m pip install -U pip wheel
+        python -m pip install -r docs/requirements.txt
+        pip show mkdocs-material
+
+    - name: mkdocs build
+      run: mkdocs build -f docs/mkdocs.yml --clean --verbose -d generated
+
+    - name: Include _headers file
+      run: cp docs/_headers docs/generated/_headers
+
+    - name: Publish to Cloudflare Pages
+      if: github.event_name != 'pull_request'
+      uses: cloudflare/pages-action@1
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ID }}
+        projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+        directory: docs/generated
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
+
+    - name: Publish preview to Cloudflare Pages
+      if: github.event_name == 'pull_request'
+      uses: cloudflare/pages-action@1
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ID }}
+        projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+        directory: docs/generated
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref.name }}
+
+    - name: Cache pip files
+      uses: actions/cache@v3.0.11
+      env:
+        cache-name: pip-reg
+      with:
+        path: $HOME/.cache/pip
+        key: pip-reg
+
+    - name: Cache Mkdocs files
+      uses: actions/cache@v3
+      with:
+        key: ${{ github.ref }}
+        path: .cache
