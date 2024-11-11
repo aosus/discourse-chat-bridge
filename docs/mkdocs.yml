@@ -87,3 +87,5 @@ extra_css:
 
 nav:
   - index: "index.md" 
+  - Installation: "installation.md" 
+  - usage: "usage.md" 
