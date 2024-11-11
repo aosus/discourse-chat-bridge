@@ -1,9 +1,9 @@
 # Discourse-chat-bridge
-![discourse-chat-bridge](images/Discourse_Bridge.webp)
-
-A chat bridge allowing users to post, reply and interact with discourse posts from their own favorite chat platforms.
-
-<p><a class="center-me md-button md-button--primary" href="installation" style="margin: auto;">Installation</a></p> 
+<div style="text-align: center;">
+  <img src="images/Discourse_Bridge.webp" alt="discourse-chat-bridge" />
+  <p>A chat bridge allowing users to post, reply and interact with discourse posts from their own favorite chat platforms.</p>
+  <a href="installation" class="md-button md-button--primary">Installation</a>
+</div>
 
 ## Bridge Features
 
