@@ -42,7 +42,7 @@ services:
             MATRIX_ENCRYPTION: TRUE
             language: "en"
         volumes:
-            ./data:/data:rw:z
+            -  ./data:/data:z
 ```
 
 ثم يمكنك بدء الحاوية باستخدام:
