@@ -61,6 +61,8 @@ export async function database_matrix({ roomId: roomId, sender: sender, name: na
 
 
 export async function database_matrix_member({ sender: sender, name: name, menu: menu }) {
+    let __dirname = path.resolve();
+    let config = fs.readJsonSync(path.join(__dirname, '/config.json'));
 
     if (sender && name) {
 
