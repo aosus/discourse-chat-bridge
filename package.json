@@ -24,8 +24,5 @@
   },
   "overrides": {
     "tough-cookie": "^4.1.3"
-  },
-  "security": {
-    "notes": "4 moderate vulnerabilities remain from matrix-bot-sdk dependency chain (request library). These are legacy dependencies that cannot be updated without changing the matrix-bot-sdk library. The vulnerabilities are in deprecated request/request-promise packages that are no longer maintained."
   }
 }
