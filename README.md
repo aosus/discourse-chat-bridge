@@ -138,3 +138,19 @@ node index.js
 
 
 ``` ملاحظة / عند كتابة الأمر npm run generate_matrix_token سيتم توليد التوكن لـ (Matrix) بشكل تلقائي وحفظه في ملف config.json ```
+
+<br>
+
+# الاختبارات
+
+لتشغيل الاختبارات:
+
+```bash
+npm test
+```
+
+لتشغيل الاختبارات مع تقرير التغطية:
+
+```bash
+npm run test:coverage
+```
