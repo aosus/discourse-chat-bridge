@@ -1,0 +1,16 @@
+{
+  "from": {
+    "id": 2001,
+    "username": "private_user",
+    "first_name": "Private"
+  },
+  "chat": {
+    "id": 2001,
+    "username": "private_user",
+    "first_name": "Private",
+    "type": "private"
+  },
+  "message": {
+    "message_id": 9001
+  }
+}
