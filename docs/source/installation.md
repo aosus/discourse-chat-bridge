@@ -69,3 +69,15 @@ npm start
 or
 node index.js
 ```
+
+Run the baseline automated tests:
+
+```bash
+npm test
+```
+
+Generate coverage locally (matches CI test workflow):
+
+```bash
+npm run test:coverage
+```

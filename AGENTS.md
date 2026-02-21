@@ -16,6 +16,8 @@ Keep new feature logic close to its platform (`telegram/` or `matrix/`) and put 
 - `npm install`: install dependencies for local development.
 - `npm start` or `node index.js`: start the bridge locally.
 - `npm run generate_matrix_token`: generate and store Matrix access token in `config.json`.
+- `npm test`: run baseline automated test suite.
+- `npm run test:coverage`: run tests with coverage reporting.
 - `docker compose up -d`: run containerized deployment (see `docs/source/installation.md`).
 - `pip install -r docs/requirements.txt && mkdocs serve -f docs/mkdocs.yml`: run docs locally.
 
@@ -27,7 +29,12 @@ This project uses Node.js ESM (`"type": "module"`), so prefer `import`/`export`.
 - Use clear function and variable names that reflect chat/discourse domain behavior.
 
 ## Testing Guidelines
-There is no automated test suite yet. Validate changes with targeted manual checks:
+Use automated tests as the default safety net:
+- Run `npm test` locally before opening a PR.
+- For CI parity and coverage artifacts, run `npm run test:coverage`.
+- Add or update fixtures under `test/fixtures/` and shared helpers under `test/utils/` for deterministic tests.
+- Keep smoke coverage for at least one discourse module and one platform module when touching test bootstrap or CI test wiring.
+Complement automated checks with targeted manual checks when integrations are affected:
 - Start bot and confirm both Telegram and Matrix clients connect.
 - Exercise affected commands (for example `start`, `get_latest_posts`, `sendComment`).
 - Verify Discourse side effects (post/comment/DM creation) and storage file updates under `storage/`.

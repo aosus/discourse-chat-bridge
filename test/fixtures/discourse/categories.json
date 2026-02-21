@@ -1,0 +1,28 @@
+{
+  "category_list": {
+    "categories": [
+      {
+        "id": 1,
+        "name": "General",
+        "slug": "general",
+        "description": "General discussion",
+        "topics_day": 1,
+        "topics_week": 7,
+        "topics_month": 30,
+        "topics_all_time": 99,
+        "read_restricted": false
+      },
+      {
+        "id": 2,
+        "name": "Staff",
+        "slug": "staff",
+        "description": "Staff only",
+        "topics_day": 1,
+        "topics_week": 1,
+        "topics_month": 2,
+        "topics_all_time": 10,
+        "read_restricted": true
+      }
+    ]
+  }
+}

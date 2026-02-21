@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "generate_matrix_token": "node ./matrix/generate_matrix_token.js"
+    "generate_matrix_token": "node ./matrix/generate_matrix_token.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "author": "aosus",
   "license": "agpl-3.0",
@@ -20,7 +23,9 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
-    "@types/moment-hijri": "^2.1.0"
+    "@types/moment-hijri": "^2.1.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "vitest": "^3.2.4"
   },
   "overrides": {
     "tough-cookie": "^4.1.3"

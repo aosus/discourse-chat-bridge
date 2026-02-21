@@ -1,0 +1,12 @@
+{
+  "welcome": "Welcome",
+  "in_the_bridge": "in bridge",
+  "send_number_or_name_service": "Send command",
+  "view_last_topic": "View latest topic",
+  "view_categories": "View categories",
+  "write_new_topic": "Write topic",
+  "write_new_comment": "Write comment",
+  "send_message_private": "Send private message",
+  "link_your_account_to": "Link account to",
+  "activate_the_bot": "Activate bot"
+}
